@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 7, 6, 0;
+  --background-start-rgb: 231, 229, 223;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 7, 6, 0;
+    --background-end-rgb: 7, 6, 0;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 196 88% 28%;
+    --primary-foreground: 60 4% 91%;
+    --secondary: 220 13% 91%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 231 229 223;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 196 88% 28%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 220 13% 91%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 7 6 0;
+    --foreground: 60 4% 91%;
+    --card: 7 6 0;
+    --card-foreground: 60 4% 91%;
+    --popover: 7 6 0;
+    --popover-foreground: 60 4% 91%;
+    --primary: 196 88% 28%;
+    --primary-foreground: 60 4% 91%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 60 4% 91%;
+    --muted: 231 229 223;
+    --muted-foreground: 231 229 223;
+    --accent: 196 88% 28%;
+    --accent-foreground: 60 4% 91%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 4% 91%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 215 27.9% 16.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  /* Remove default focus styles */
+  *:focus {
+    @apply outline-none;
+  }
+  
+  /* Custom focus styles */
+  *:focus-visible {
+    @apply ring-1 ring-gray-200 ring-offset-0;
+  }
+  
+  /* Remove focus styles for non-interactive elements */
+  div:focus, span:focus, p:focus {
+    @apply ring-0 ring-offset-0;
+  }
+  
+  /* Custom styles for form elements */
+  input, select, textarea {
+    @apply border-gray-200 focus:ring-1 focus:ring-gray-200 focus:border-gray-300 transition-colors;
+  }
+  
+  /* Link focus states */
+  a:focus-visible {
+    @apply ring-1 ring-gray-200 ring-offset-0 rounded-sm;
+  }
+  
+  /* Button focus states */
+  button:focus-visible {
+    @apply ring-1 ring-gray-200 ring-offset-0;
+  }
+}
