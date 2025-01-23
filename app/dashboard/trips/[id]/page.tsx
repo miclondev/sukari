@@ -1,13 +1,11 @@
-"use client";
-
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Users, Globe, Clock, Coffee, Utensils, Hotel } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar, Clock, Globe, Users, Utensils } from "lucide-react";
 import Link from "next/link";
 
 // This would come from an API in a real application
-export const tripDetails = {
+const tripDetails = {
   "1": {
     id: 1,
     title: "A Week in Greece: Athens, Mykonos & Santorini",
@@ -21,25 +19,27 @@ export const tripDetails = {
       {
         dueDate: "Dec 15, 2023",
         amount: 899,
-        status: "Paid"
+        status: "Paid",
       },
       {
         dueDate: "Feb 15, 2024",
         amount: 1000,
-        status: "Due"
+        status: "Due",
       },
       {
         dueDate: "Mar 15, 2024",
         amount: 1000,
-        status: "Due"
-      }
+        status: "Due",
+      },
     ],
-    image: "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?auto=format&fit=crop&q=80&w=1200",
+    image:
+      "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?auto=format&fit=crop&q=80&w=1200",
     itinerary: [
       {
         day: 1,
         title: "Arrival in Athens",
-        description: "Welcome to Greece! Meet your Tour Director and fellow travelers at a welcome dinner.",
+        description:
+          "Welcome to Greece! Meet your Tour Director and fellow travelers at a welcome dinner.",
         activities: ["Airport transfer", "Hotel check-in", "Welcome dinner"],
         meals: ["Dinner"],
       },
@@ -61,7 +61,11 @@ export const tripDetails = {
         day: 4,
         title: "Mykonos",
         description: "Free day to explore the island's beaches and villages.",
-        activities: ["Optional beach excursion", "Free time for shopping", "Optional cooking class"],
+        activities: [
+          "Optional beach excursion",
+          "Free time for shopping",
+          "Optional cooking class",
+        ],
         meals: ["Breakfast"],
       },
       {
@@ -125,33 +129,32 @@ export const tripDetails = {
       {
         dueDate: "Mar 1, 2024",
         amount: 1000,
-        status: "Due"
+        status: "Due",
       },
       {
         dueDate: "Apr 1, 2024",
         amount: 1239,
-        status: "Due"
+        status: "Due",
       },
       {
         dueDate: "May 1, 2024",
         amount: 1000,
-        status: "Due"
-      }
+        status: "Due",
+      },
     ],
-    image: "https://images.unsplash.com/photo-1520986606214-8b456906c813?auto=format&fit=crop&q=80&w=1200",
+    image:
+      "https://images.unsplash.com/photo-1520986606214-8b456906c813?auto=format&fit=crop&q=80&w=1200",
     itinerary: [], // Add full itinerary details here
     included: [], // Add included items here
     notIncluded: [], // Add not included items here
   },
 };
 
-// Add generateStaticParams function for static site generation
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return Object.keys(tripDetails).map((id) => ({
     id,
   }));
 }
-
 export default function TripDetailsPage({ params }: { params: { id: string } }) {
   const trip = tripDetails[params.id as keyof typeof tripDetails];
 
@@ -159,7 +162,9 @@ export default function TripDetailsPage({ params }: { params: { id: string } }) 
     return (
       <div className="text-center py-12">
         <h1 className="text-2xl font-bold mb-4">Trip not found</h1>
-        <p className="text-muted-foreground">The trip you're looking for doesn't exist.</p>
+        <p className="text-muted-foreground">
+          The trip you&apos;re looking for doesn&apos;t exist.
+        </p>
       </div>
     );
   }
@@ -185,11 +190,13 @@ export default function TripDetailsPage({ params }: { params: { id: string } }) 
           </div>
         </div>
         <div>
-          <span className={`inline-block px-3 py-1 rounded-full text-sm ${
-            trip.status === "Confirmed" 
-              ? "bg-green-100 text-green-800" 
-              : "bg-yellow-100 text-yellow-800"
-          }`}>
+          <span
+            className={`inline-block px-3 py-1 rounded-full text-sm ${
+              trip.status === "Confirmed"
+                ? "bg-green-100 text-green-800"
+                : "bg-yellow-100 text-yellow-800"
+            }`}
+          >
             {trip.status}
           </span>
         </div>
@@ -200,22 +207,27 @@ export default function TripDetailsPage({ params }: { params: { id: string } }) 
           <Tabs defaultValue="itinerary" className="w-full">
             <TabsList>
               <TabsTrigger value="itinerary">Itinerary</TabsTrigger>
-              <TabsTrigger value="included">What's Included</TabsTrigger>
+              <TabsTrigger value="included">What&apos;s Included</TabsTrigger>
             </TabsList>
 
             <TabsContent value="itinerary">
               <Card className="p-6">
                 <div className="space-y-8">
                   {trip.itinerary.map((day) => (
-                    <div key={day.day} className="relative pl-8 pb-8 border-l-2 border-ef-teal last:pb-0">
+                    <div
+                      key={day.day}
+                      className="relative pl-8 pb-8 border-l-2 border-ef-teal last:pb-0"
+                    >
                       <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-ef-teal" />
                       <div className="mb-4">
-                        <h3 className="text-lg font-semibold">Day {day.day}: {day.title}</h3>
+                        <h3 className="text-lg font-semibold">
+                          Day {day.day}: {day.title}
+                        </h3>
                         <p className="text-muted-foreground mt-1">{day.description}</p>
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <h4 className="font-medium mb-2">Today's Activities</h4>
+                          <h4 className="font-medium mb-2">Today&apos;s Activities</h4>
                           <ul className="space-y-2">
                             {day.activities.map((activity, index) => (
                               <li key={index} className="flex items-center">
@@ -251,7 +263,7 @@ export default function TripDetailsPage({ params }: { params: { id: string } }) 
                   <div>
                     <h3 className="font-semibold mb-4 flex items-center">
                       <Globe className="w-5 h-5 mr-2 text-ef-teal" />
-                      What's Included
+                      What&apos;s Included
                     </h3>
                     <ul className="space-y-2">
                       {trip.included.map((item, index) => (
@@ -299,14 +311,18 @@ export default function TripDetailsPage({ params }: { params: { id: string } }) 
                 <Button className="w-full" asChild>
                   <Link href={`/dashboard/trips/${trip.id}/payment`}>Make Payment</Link>
                 </Button>
-                <Button variant="outline" className="w-full">Download Itinerary</Button>
+                <Button variant="outline" className="w-full">
+                  Download Itinerary
+                </Button>
               </div>
               <div className="pt-4 border-t">
                 <h4 className="font-medium mb-2">Need Assistance?</h4>
                 <p className="text-sm text-muted-foreground mb-4">
                   Our travel experts are here to help you with any questions about your trip.
                 </p>
-                <Button variant="outline" className="w-full">Contact Support</Button>
+                <Button variant="outline" className="w-full">
+                  Contact Support
+                </Button>
               </div>
             </div>
           </Card>

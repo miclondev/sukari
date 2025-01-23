@@ -1,9 +1,6 @@
-"use client";
-
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Calendar, CreditCard, Info } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -11,15 +8,158 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { tripDetails } from "../page";
+import { Calendar, CreditCard, Info } from "lucide-react";
 
-// Add generateStaticParams function for static site generation
-export async function generateStaticParams() {
+const tripDetails = {
+  "1": {
+    id: 1,
+    title: "A Week in Greece: Athens, Mykonos & Santorini",
+    date: "Apr 15, 2024",
+    duration: "8 days",
+    groupSize: "12-15 travelers",
+    status: "Confirmed",
+    amount: 2899,
+    remainingPayment: 2000,
+    paymentSchedule: [
+      {
+        dueDate: "Dec 15, 2023",
+        amount: 899,
+        status: "Paid",
+      },
+      {
+        dueDate: "Feb 15, 2024",
+        amount: 1000,
+        status: "Due",
+      },
+      {
+        dueDate: "Mar 15, 2024",
+        amount: 1000,
+        status: "Due",
+      },
+    ],
+    image:
+      "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?auto=format&fit=crop&q=80&w=1200",
+    itinerary: [
+      {
+        day: 1,
+        title: "Arrival in Athens",
+        description:
+          "Welcome to Greece! Meet your Tour Director and fellow travelers at a welcome dinner.",
+        activities: ["Airport transfer", "Hotel check-in", "Welcome dinner"],
+        meals: ["Dinner"],
+      },
+      {
+        day: 2,
+        title: "Sightseeing in Athens",
+        description: "Visit the ancient Acropolis and explore the modern city.",
+        activities: ["Acropolis tour", "Plaka neighborhood walk", "Archaeological Museum visit"],
+        meals: ["Breakfast", "Lunch"],
+      },
+      {
+        day: 3,
+        title: "Athens → Mykonos",
+        description: "Travel by ferry to the island of Mykonos.",
+        activities: ["Ferry to Mykonos", "Island orientation", "Free evening"],
+        meals: ["Breakfast"],
+      },
+      {
+        day: 4,
+        title: "Mykonos",
+        description: "Free day to explore the island's beaches and villages.",
+        activities: [
+          "Optional beach excursion",
+          "Free time for shopping",
+          "Optional cooking class",
+        ],
+        meals: ["Breakfast"],
+      },
+      {
+        day: 5,
+        title: "Mykonos → Santorini",
+        description: "Ferry to Santorini, evening wine tasting.",
+        activities: ["Ferry to Santorini", "Hotel check-in", "Wine tasting experience"],
+        meals: ["Breakfast", "Dinner"],
+      },
+      {
+        day: 6,
+        title: "Santorini",
+        description: "Visit Oia and watch the famous sunset.",
+        activities: ["Oia village tour", "Sunset viewing", "Group dinner"],
+        meals: ["Breakfast", "Dinner"],
+      },
+      {
+        day: 7,
+        title: "Santorini",
+        description: "Free day for optional activities or relaxation.",
+        activities: ["Optional volcano tour", "Free time", "Farewell dinner"],
+        meals: ["Breakfast", "Dinner"],
+      },
+      {
+        day: 8,
+        title: "Departure",
+        description: "Transfer to the airport for departure.",
+        activities: ["Airport transfer"],
+        meals: ["Breakfast"],
+      },
+    ],
+    included: [
+      "All accommodations",
+      "All transportation within the tour",
+      "Professional tour director",
+      "Local guides",
+      "Most meals",
+      "Welcome and farewell dinners",
+      "Wine tasting experience",
+      "Entrance fees to all sites",
+    ],
+    notIncluded: [
+      "Flights to/from Greece",
+      "Travel insurance",
+      "Optional activities",
+      "Some meals",
+      "Personal expenses",
+      "Gratuities",
+    ],
+  },
+  "2": {
+    id: 2,
+    title: "London, Paris & Rome",
+    date: "Jun 1, 2024",
+    duration: "10 days",
+    groupSize: "12-15 travelers",
+    status: "Pending",
+    amount: 3239,
+    remainingPayment: 3239,
+    paymentSchedule: [
+      {
+        dueDate: "Mar 1, 2024",
+        amount: 1000,
+        status: "Due",
+      },
+      {
+        dueDate: "Apr 1, 2024",
+        amount: 1239,
+        status: "Due",
+      },
+      {
+        dueDate: "May 1, 2024",
+        amount: 1000,
+        status: "Due",
+      },
+    ],
+    image:
+      "https://images.unsplash.com/photo-1520986606214-8b456906c813?auto=format&fit=crop&q=80&w=1200",
+    itinerary: [], // Add full itinerary details here
+    included: [], // Add included items here
+    notIncluded: [], // Add not included items here
+  },
+};
+
+export function generateStaticParams() {
   return Object.keys(tripDetails).map((id) => ({
     id,
   }));
 }
-
 export default function TripPaymentPage({ params }: { params: { id: string } }) {
   const trip = tripDetails[params.id as keyof typeof tripDetails];
 
@@ -27,7 +167,9 @@ export default function TripPaymentPage({ params }: { params: { id: string } }) 
     return (
       <div className="text-center py-12">
         <h1 className="text-2xl font-bold mb-4">Trip not found</h1>
-        <p className="text-muted-foreground">The trip you're looking for doesn't exist.</p>
+        <p className="text-muted-foreground">
+          The trip you&apos;re looking for doesn&apos;t exist.
+        </p>
       </div>
     );
   }
@@ -44,7 +186,10 @@ export default function TripPaymentPage({ params }: { params: { id: string } }) 
           <h2 className="font-semibold mb-4">Payment Schedule</h2>
           <div className="space-y-4">
             {trip.paymentSchedule.map((payment, index) => (
-              <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/10">
+              <div
+                key={index}
+                className="flex items-center justify-between p-3 rounded-lg bg-muted/10"
+              >
                 <div>
                   <div className="flex items-center text-sm">
                     <Calendar className="w-4 h-4 mr-2" />
@@ -52,11 +197,13 @@ export default function TripPaymentPage({ params }: { params: { id: string } }) 
                   </div>
                   <p className="font-medium mt-1">${payment.amount}</p>
                 </div>
-                <span className={`px-2 py-1 rounded-full text-xs ${
-                  payment.status === "Paid"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-yellow-100 text-yellow-800"
-                }`}>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs ${
+                    payment.status === "Paid"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-yellow-100 text-yellow-800"
+                  }`}
+                >
                   {payment.status}
                 </span>
               </div>
@@ -78,7 +225,7 @@ export default function TripPaymentPage({ params }: { params: { id: string } }) 
               <SelectContent>
                 <SelectItem value="full">Full Balance (${trip.remainingPayment})</SelectItem>
                 {trip.paymentSchedule
-                  .filter(payment => payment.status === "Due")
+                  .filter((payment) => payment.status === "Due")
                   .map((payment, index) => (
                     <SelectItem key={index} value={`payment-${index}`}>
                       Next Payment (${payment.amount})
@@ -125,7 +272,8 @@ export default function TripPaymentPage({ params }: { params: { id: string } }) 
               </div>
               <Button className="w-full">Complete Payment</Button>
               <p className="text-xs text-center text-muted-foreground mt-4">
-                Your payment is secured and encrypted. By proceeding, you agree to our terms and conditions.
+                Your payment is secured and encrypted. By proceeding, you agree to our terms and
+                conditions.
               </p>
             </div>
           </div>
