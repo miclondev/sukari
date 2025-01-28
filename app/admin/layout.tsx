@@ -1,25 +1,21 @@
-import { redirect } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Compass, 
-  Calendar, 
-  BarChart, 
-  Settings,
-  MessageSquare,
+import {
+  BarChart,
+  Calendar,
+  Compass,
   DollarSign,
-  LogOut 
+  LayoutDashboard,
+  LogOut,
+  MessageSquare,
+  Settings,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 // This is a placeholder - in a real app, you'd check the admin session
 const isAdmin = true;
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   if (!isAdmin) {
     redirect("/login");
   }
@@ -41,7 +37,9 @@ export default function AdminLayout({
         {/* Sidebar */}
         <div className="w-64 min-h-screen bg-ef-dark text-white p-6">
           <div className="mb-8">
-            <Link href="/admin" className="text-2xl font-bold">EF Admin</Link>
+            <Link href="/admin" className="text-2xl font-bold">
+              Sukari Admin
+            </Link>
           </div>
           <nav className="space-y-2">
             {navItems.map((item) => {
@@ -80,9 +78,7 @@ export default function AdminLayout({
               </div>
             </div>
           </header>
-          <main className="p-8">
-            {children}
-          </main>
+          <main className="p-8">{children}</main>
         </div>
       </div>
     </div>

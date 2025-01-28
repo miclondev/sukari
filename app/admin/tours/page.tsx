@@ -2,14 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Calendar, Edit, Eye, MoreVertical, Plus, Search, Trash2 } from "lucide-react";
+import { Calendar, Eye, Pen, Plus, Search, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 const toursData = {
   "greece-athens-mykonos-santorini": {
@@ -233,9 +228,11 @@ export default function AdminToursPage() {
             <h1 className="text-2xl font-bold mb-2">Tours Management</h1>
             <p className="text-muted-foreground">Manage and organize your tour packages</p>
           </div>
-          <Button>
-            <Plus className="w-4 h-4 mr-2" />
-            Add New Tour
+          <Button asChild>
+            <Link href="/admin/tours/new">
+              <Plus className="w-4 h-4 mr-2" />
+              Add New Tour
+            </Link>
           </Button>
         </div>
 
@@ -264,6 +261,8 @@ export default function AdminToursPage() {
                   </div>
                   <span>|</span>
                   <span>${tour.price}</span>
+                  <span>|</span>
+                  <span>Active</span>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
@@ -271,23 +270,14 @@ export default function AdminToursPage() {
                   <Eye className="w-4 h-4 mr-2" />
                   Preview
                 </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="w-4 h-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                      <Edit className="w-4 h-4 mr-2" />
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-600">
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Button variant="outline" size="sm">
+                  <Pen className="w-4 h-4 mr-2" />
+                  Edit
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete
+                </Button>
               </div>
             </div>
           ))}
