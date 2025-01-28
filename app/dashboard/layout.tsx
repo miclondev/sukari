@@ -1,22 +1,11 @@
-import { redirect } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  Compass, 
-  Calendar, 
-  CreditCard, 
-  Settings, 
-  LogOut 
-} from "lucide-react";
+import { Calendar, Compass, CreditCard, LayoutDashboard, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 // This is a placeholder - in a real app, you'd check the session
 const isAuthenticated = true;
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   if (!isAuthenticated) {
     redirect("/login");
   }
@@ -35,7 +24,9 @@ export default function DashboardLayout({
         {/* Sidebar */}
         <div className="w-64 min-h-screen bg-ef-teal text-white p-6">
           <div className="mb-8">
-            <Link href="/" className="text-2xl font-bold">EF Tours</Link>
+            <Link href="/" className="text-2xl font-bold">
+              EF Tours
+            </Link>
           </div>
           <nav className="space-y-2">
             {navItems.map((item) => {
@@ -64,19 +55,8 @@ export default function DashboardLayout({
             <div className="flex-1">
               <h1 className="text-2xl font-semibold">Dashboard</h1>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="font-medium">John Doe</p>
-                <p className="text-sm text-muted-foreground">john@example.com</p>
-              </div>
-              <div className="w-10 h-10 rounded-full bg-ef-orange text-white flex items-center justify-center">
-                JD
-              </div>
-            </div>
           </header>
-          <main className="p-8">
-            {children}
-          </main>
+          <main className="p-8">{children}</main>
         </div>
       </div>
     </div>

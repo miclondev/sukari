@@ -48,10 +48,6 @@ export const getGroup = /* GraphQL */ `query GetGroup($id: ID!) {
     members
     name
     owner
-    trips {
-      nextToken
-      __typename
-    }
     updatedAt
     __typename
   }
@@ -67,22 +63,6 @@ export const getItinerary = /* GraphQL */ `query GetItinerary($id: ID!) {
     id
     notes
     owner
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     __typename
@@ -100,22 +80,6 @@ export const getPayment = /* GraphQL */ `query GetPayment($id: ID!) {
     id
     owner
     status
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     userId
@@ -134,6 +98,7 @@ export const getProfile = /* GraphQL */ `query GetProfile($id: ID!) {
     email
     id
     owner
+    profilePicture
     updatedAt
     __typename
   }
@@ -142,55 +107,51 @@ export const getProfile = /* GraphQL */ `query GetProfile($id: ID!) {
   APITypes.GetProfileQueryVariables,
   APITypes.GetProfileQuery
 >;
-export const getTrip = /* GraphQL */ `query GetTrip($id: ID!) {
-  getTrip(id: $id) {
+export const getTour = /* GraphQL */ `query GetTour($id: ID!) {
+  getTour(id: $id) {
     createdAt
+    days
     description
     destination
-    endDate
-    group {
-      adminId
-      createdAt
-      description
-      id
-      members
-      name
-      owner
-      updatedAt
-      __typename
-    }
-    groupId
+    groupSize
+    highlights
     id
-    itinerary {
-      createdAt
-      id
-      notes
-      owner
-      tripId
-      updatedAt
-      __typename
-    }
-    itineraryId
-    owner
-    payments {
-      nextToken
-      __typename
-    }
-    startDate
+    images
+    nextDeparture
+    orgId
+    previousCost
     status
     title
     totalCost
+    tourItenerary {
+      activities
+      day
+      description
+      image
+      meals
+      title
+      __typename
+    }
     updatedAt
+    whatsIncluded
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetTripQueryVariables, APITypes.GetTripQuery>;
+` as GeneratedQuery<APITypes.GetTourQueryVariables, APITypes.GetTourQuery>;
 export const listActivities = /* GraphQL */ `query ListActivities(
   $filter: ModelActivityFilterInput
+  $id: ID
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listActivities(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listActivities(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
       cost
       createdAt
@@ -217,10 +178,18 @@ export const listActivities = /* GraphQL */ `query ListActivities(
 >;
 export const listGroups = /* GraphQL */ `query ListGroups(
   $filter: ModelGroupFilterInput
+  $id: ID
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listGroups(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
       adminId
       createdAt
@@ -242,10 +211,18 @@ export const listGroups = /* GraphQL */ `query ListGroups(
 >;
 export const listItineraries = /* GraphQL */ `query ListItineraries(
   $filter: ModelItineraryFilterInput
+  $id: ID
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listItineraries(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listItineraries(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
       createdAt
       id
@@ -265,10 +242,18 @@ export const listItineraries = /* GraphQL */ `query ListItineraries(
 >;
 export const listPayments = /* GraphQL */ `query ListPayments(
   $filter: ModelPaymentFilterInput
+  $id: ID
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listPayments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listPayments(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
       amount
       createdAt
@@ -310,6 +295,7 @@ export const listProfiles = /* GraphQL */ `query ListProfiles(
       email
       id
       owner
+      profilePicture
       updatedAt
       __typename
     }
@@ -321,30 +307,124 @@ export const listProfiles = /* GraphQL */ `query ListProfiles(
   APITypes.ListProfilesQueryVariables,
   APITypes.ListProfilesQuery
 >;
-export const listTrips = /* GraphQL */ `query ListTrips(
-  $filter: ModelTripFilterInput
+export const listTours = /* GraphQL */ `query ListTours(
+  $filter: ModelTourFilterInput
+  $id: ID
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listTrips(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listTours(
+    filter: $filter
+    id: $id
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
       createdAt
+      days
       description
       destination
-      endDate
-      groupId
+      groupSize
+      highlights
       id
-      itineraryId
-      owner
-      startDate
+      images
+      nextDeparture
+      orgId
+      previousCost
       status
       title
       totalCost
       updatedAt
+      whatsIncluded
       __typename
     }
     nextToken
     __typename
   }
 }
-` as GeneratedQuery<APITypes.ListTripsQueryVariables, APITypes.ListTripsQuery>;
+` as GeneratedQuery<APITypes.ListToursQueryVariables, APITypes.ListToursQuery>;
+export const tourByOrg = /* GraphQL */ `query TourByOrg(
+  $createdAt: ModelStringKeyConditionInput
+  $filter: ModelTourFilterInput
+  $limit: Int
+  $nextToken: String
+  $orgId: ID!
+  $sortDirection: ModelSortDirection
+) {
+  tourByOrg(
+    createdAt: $createdAt
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    orgId: $orgId
+    sortDirection: $sortDirection
+  ) {
+    items {
+      createdAt
+      days
+      description
+      destination
+      groupSize
+      highlights
+      id
+      images
+      nextDeparture
+      orgId
+      previousCost
+      status
+      title
+      totalCost
+      updatedAt
+      whatsIncluded
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.TourByOrgQueryVariables, APITypes.TourByOrgQuery>;
+export const tourByStatus = /* GraphQL */ `query TourByStatus(
+  $createdAt: ModelStringKeyConditionInput
+  $filter: ModelTourFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+  $status: String!
+) {
+  tourByStatus(
+    createdAt: $createdAt
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+    status: $status
+  ) {
+    items {
+      createdAt
+      days
+      description
+      destination
+      groupSize
+      highlights
+      id
+      images
+      nextDeparture
+      orgId
+      previousCost
+      status
+      title
+      totalCost
+      updatedAt
+      whatsIncluded
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.TourByStatusQueryVariables,
+  APITypes.TourByStatusQuery
+>;

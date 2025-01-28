@@ -36,11 +36,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex">
         {/* Sidebar */}
         <div className="w-64 min-h-screen bg-ef-dark text-white p-6">
-          <div className="mb-8">
-            <Link href="/admin" className="text-2xl font-bold">
-              Sukari Admin
-            </Link>
-          </div>
           <nav className="space-y-2">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -67,15 +62,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <header className="h-16 border-b bg-white flex items-center px-8">
             <div className="flex-1">
               <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="font-medium">Admin User</p>
-                <p className="text-sm text-muted-foreground">admin@eftours.com</p>
-              </div>
-              <div className="w-10 h-10 rounded-full bg-ef-orange text-white flex items-center justify-center">
-                AD
-              </div>
             </div>
           </header>
           <main className="p-8">{children}</main>

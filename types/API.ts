@@ -27,7 +27,6 @@ export type Itinerary = {
   id: string,
   notes?: string | null,
   owner?: string | null,
-  trip?: Trip | null,
   tripId?: string | null,
   updatedAt?: string | null,
 };
@@ -37,80 +36,6 @@ export type ModelActivityConnection = {
   items:  Array<Activity | null >,
   nextToken?: string | null,
 };
-
-export type Trip = {
-  __typename: "Trip",
-  createdAt?: string | null,
-  description?: string | null,
-  destination?: string | null,
-  endDate?: string | null,
-  group?: Group | null,
-  groupId?: string | null,
-  id: string,
-  itinerary?: Itinerary | null,
-  itineraryId?: string | null,
-  owner?: string | null,
-  payments?: ModelPaymentConnection | null,
-  startDate?: string | null,
-  status?: TripStatus | null,
-  title?: string | null,
-  totalCost?: number | null,
-  updatedAt?: string | null,
-};
-
-export type Group = {
-  __typename: "Group",
-  adminId?: string | null,
-  createdAt?: string | null,
-  description?: string | null,
-  id: string,
-  members?: Array< string | null > | null,
-  name?: string | null,
-  owner?: string | null,
-  trips?: ModelTripConnection | null,
-  updatedAt?: string | null,
-};
-
-export type ModelTripConnection = {
-  __typename: "ModelTripConnection",
-  items:  Array<Trip | null >,
-  nextToken?: string | null,
-};
-
-export type ModelPaymentConnection = {
-  __typename: "ModelPaymentConnection",
-  items:  Array<Payment | null >,
-  nextToken?: string | null,
-};
-
-export type Payment = {
-  __typename: "Payment",
-  amount?: number | null,
-  createdAt?: string | null,
-  dueDate?: string | null,
-  id: string,
-  owner?: string | null,
-  status?: PaymentStatus | null,
-  trip?: Trip | null,
-  tripId?: string | null,
-  updatedAt?: string | null,
-  userId?: string | null,
-};
-
-export enum PaymentStatus {
-  OVERDUE = "OVERDUE",
-  PAID = "PAID",
-  PENDING = "PENDING",
-}
-
-
-export enum TripStatus {
-  COMPLETED = "COMPLETED",
-  CONFIRMED = "CONFIRMED",
-  IN_PROGRESS = "IN_PROGRESS",
-  PLANNING = "PLANNING",
-}
-
 
 export enum ActivityStatus {
   BOOKED = "BOOKED",
@@ -129,6 +54,38 @@ export enum ActivityType {
 }
 
 
+export type Group = {
+  __typename: "Group",
+  adminId?: string | null,
+  createdAt?: string | null,
+  description?: string | null,
+  id: string,
+  members?: Array< string | null > | null,
+  name?: string | null,
+  owner?: string | null,
+  updatedAt?: string | null,
+};
+
+export type Payment = {
+  __typename: "Payment",
+  amount?: number | null,
+  createdAt?: string | null,
+  dueDate?: string | null,
+  id: string,
+  owner?: string | null,
+  status?: PaymentStatus | null,
+  tripId?: string | null,
+  updatedAt?: string | null,
+  userId?: string | null,
+};
+
+export enum PaymentStatus {
+  OVERDUE = "OVERDUE",
+  PAID = "PAID",
+  PENDING = "PENDING",
+}
+
+
 export type Profile = {
   __typename: "Profile",
   accountType?: ProfileAccountType | null,
@@ -137,6 +94,7 @@ export type Profile = {
   email?: string | null,
   id: string,
   owner?: string | null,
+  profilePicture?: string | null,
   updatedAt?: string | null,
 };
 
@@ -145,6 +103,37 @@ export enum ProfileAccountType {
   user = "user",
 }
 
+
+export type Tour = {
+  __typename: "Tour",
+  createdAt?: string | null,
+  days?: number | null,
+  description?: string | null,
+  destination?: string | null,
+  groupSize?: number | null,
+  highlights?: Array< string | null > | null,
+  id: string,
+  images?: Array< string | null > | null,
+  nextDeparture?: string | null,
+  orgId?: string | null,
+  previousCost?: number | null,
+  status: string,
+  title?: string | null,
+  totalCost?: number | null,
+  tourItenerary?:  Array<tourItenerary | null > | null,
+  updatedAt?: string | null,
+  whatsIncluded?: Array< string | null > | null,
+};
+
+export type tourItenerary = {
+  __typename: "tourItenerary",
+  activities?: Array< string | null > | null,
+  day?: number | null,
+  description?: string | null,
+  image?: string | null,
+  meals?: Array< string | null > | null,
+  title?: string | null,
+};
 
 export type ModelActivityFilterInput = {
   and?: Array< ModelActivityFilterInput | null > | null,
@@ -243,6 +232,12 @@ export type ModelActivityTypeInput = {
   ne?: ActivityType | null,
 };
 
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type ModelGroupFilterInput = {
   adminId?: ModelStringInput | null,
   and?: Array< ModelGroupFilterInput | null > | null,
@@ -301,6 +296,12 @@ export type ModelPaymentStatusInput = {
   ne?: PaymentStatus | null,
 };
 
+export type ModelPaymentConnection = {
+  __typename: "ModelPaymentConnection",
+  items:  Array<Payment | null >,
+  nextToken?: string | null,
+};
+
 export type ModelProfileFilterInput = {
   accountType?: ModelProfileAccountTypeInput | null,
   and?: Array< ModelProfileFilterInput | null > | null,
@@ -311,6 +312,7 @@ export type ModelProfileFilterInput = {
   not?: ModelProfileFilterInput | null,
   or?: Array< ModelProfileFilterInput | null > | null,
   owner?: ModelStringInput | null,
+  profilePicture?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -319,40 +321,60 @@ export type ModelProfileAccountTypeInput = {
   ne?: ProfileAccountType | null,
 };
 
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-
 export type ModelProfileConnection = {
   __typename: "ModelProfileConnection",
   items:  Array<Profile | null >,
   nextToken?: string | null,
 };
 
-export type ModelTripFilterInput = {
-  and?: Array< ModelTripFilterInput | null > | null,
+export type ModelTourFilterInput = {
+  and?: Array< ModelTourFilterInput | null > | null,
   createdAt?: ModelStringInput | null,
+  days?: ModelIntInput | null,
   description?: ModelStringInput | null,
   destination?: ModelStringInput | null,
-  endDate?: ModelStringInput | null,
-  groupId?: ModelIDInput | null,
+  groupSize?: ModelIntInput | null,
+  highlights?: ModelStringInput | null,
   id?: ModelIDInput | null,
-  itineraryId?: ModelIDInput | null,
-  not?: ModelTripFilterInput | null,
-  or?: Array< ModelTripFilterInput | null > | null,
-  owner?: ModelStringInput | null,
-  startDate?: ModelStringInput | null,
-  status?: ModelTripStatusInput | null,
+  images?: ModelStringInput | null,
+  nextDeparture?: ModelStringInput | null,
+  not?: ModelTourFilterInput | null,
+  or?: Array< ModelTourFilterInput | null > | null,
+  orgId?: ModelIDInput | null,
+  previousCost?: ModelFloatInput | null,
+  status?: ModelStringInput | null,
   title?: ModelStringInput | null,
   totalCost?: ModelFloatInput | null,
   updatedAt?: ModelStringInput | null,
+  whatsIncluded?: ModelStringInput | null,
 };
 
-export type ModelTripStatusInput = {
-  eq?: TripStatus | null,
-  ne?: TripStatus | null,
+export type ModelIntInput = {
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+};
+
+export type ModelTourConnection = {
+  __typename: "ModelTourConnection",
+  items:  Array<Tour | null >,
+  nextToken?: string | null,
+};
+
+export type ModelStringKeyConditionInput = {
+  beginsWith?: string | null,
+  between?: Array< string | null > | null,
+  eq?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  le?: string | null,
+  lt?: string | null,
 };
 
 export type ModelActivityConditionInput = {
@@ -464,6 +486,7 @@ export type ModelProfileConditionInput = {
   not?: ModelProfileConditionInput | null,
   or?: Array< ModelProfileConditionInput | null > | null,
   owner?: ModelStringInput | null,
+  profilePicture?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -473,40 +496,58 @@ export type CreateProfileInput = {
   createdAt?: string | null,
   email?: string | null,
   id?: string | null,
+  profilePicture?: string | null,
   updatedAt?: string | null,
 };
 
-export type ModelTripConditionInput = {
-  and?: Array< ModelTripConditionInput | null > | null,
+export type ModelTourConditionInput = {
+  and?: Array< ModelTourConditionInput | null > | null,
   createdAt?: ModelStringInput | null,
+  days?: ModelIntInput | null,
   description?: ModelStringInput | null,
   destination?: ModelStringInput | null,
-  endDate?: ModelStringInput | null,
-  groupId?: ModelIDInput | null,
-  itineraryId?: ModelIDInput | null,
-  not?: ModelTripConditionInput | null,
-  or?: Array< ModelTripConditionInput | null > | null,
-  owner?: ModelStringInput | null,
-  startDate?: ModelStringInput | null,
-  status?: ModelTripStatusInput | null,
+  groupSize?: ModelIntInput | null,
+  highlights?: ModelStringInput | null,
+  images?: ModelStringInput | null,
+  nextDeparture?: ModelStringInput | null,
+  not?: ModelTourConditionInput | null,
+  or?: Array< ModelTourConditionInput | null > | null,
+  orgId?: ModelIDInput | null,
+  previousCost?: ModelFloatInput | null,
+  status?: ModelStringInput | null,
   title?: ModelStringInput | null,
   totalCost?: ModelFloatInput | null,
   updatedAt?: ModelStringInput | null,
+  whatsIncluded?: ModelStringInput | null,
 };
 
-export type CreateTripInput = {
+export type CreateTourInput = {
   createdAt?: string | null,
+  days?: number | null,
   description?: string | null,
   destination?: string | null,
-  endDate?: string | null,
-  groupId?: string | null,
+  groupSize?: number | null,
+  highlights?: Array< string | null > | null,
   id?: string | null,
-  itineraryId?: string | null,
-  startDate?: string | null,
-  status?: TripStatus | null,
+  images?: Array< string | null > | null,
+  nextDeparture?: string | null,
+  orgId?: string | null,
+  previousCost?: number | null,
+  status: string,
   title?: string | null,
   totalCost?: number | null,
+  tourItenerary?: Array< TourIteneraryInput | null > | null,
   updatedAt?: string | null,
+  whatsIncluded?: Array< string | null > | null,
+};
+
+export type TourIteneraryInput = {
+  activities?: Array< string | null > | null,
+  day?: number | null,
+  description?: string | null,
+  image?: string | null,
+  meals?: Array< string | null > | null,
+  title?: string | null,
 };
 
 export type DeleteActivityInput = {
@@ -529,7 +570,7 @@ export type DeleteProfileInput = {
   id: string,
 };
 
-export type DeleteTripInput = {
+export type DeleteTourInput = {
   id: string,
 };
 
@@ -583,22 +624,28 @@ export type UpdateProfileInput = {
   createdAt?: string | null,
   email?: string | null,
   id: string,
+  profilePicture?: string | null,
   updatedAt?: string | null,
 };
 
-export type UpdateTripInput = {
+export type UpdateTourInput = {
   createdAt?: string | null,
+  days?: number | null,
   description?: string | null,
   destination?: string | null,
-  endDate?: string | null,
-  groupId?: string | null,
+  groupSize?: number | null,
+  highlights?: Array< string | null > | null,
   id: string,
-  itineraryId?: string | null,
-  startDate?: string | null,
-  status?: TripStatus | null,
+  images?: Array< string | null > | null,
+  nextDeparture?: string | null,
+  orgId?: string | null,
+  previousCost?: number | null,
+  status?: string | null,
   title?: string | null,
   totalCost?: number | null,
+  tourItenerary?: Array< TourIteneraryInput | null > | null,
   updatedAt?: string | null,
+  whatsIncluded?: Array< string | null > | null,
 };
 
 export type ModelSubscriptionActivityFilterInput = {
@@ -708,25 +755,41 @@ export type ModelSubscriptionProfileFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   or?: Array< ModelSubscriptionProfileFilterInput | null > | null,
   owner?: ModelStringInput | null,
+  profilePicture?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
 };
 
-export type ModelSubscriptionTripFilterInput = {
-  and?: Array< ModelSubscriptionTripFilterInput | null > | null,
+export type ModelSubscriptionTourFilterInput = {
+  and?: Array< ModelSubscriptionTourFilterInput | null > | null,
   createdAt?: ModelSubscriptionStringInput | null,
+  days?: ModelSubscriptionIntInput | null,
   description?: ModelSubscriptionStringInput | null,
   destination?: ModelSubscriptionStringInput | null,
-  endDate?: ModelSubscriptionStringInput | null,
-  groupId?: ModelSubscriptionIDInput | null,
+  groupSize?: ModelSubscriptionIntInput | null,
+  highlights?: ModelSubscriptionStringInput | null,
   id?: ModelSubscriptionIDInput | null,
-  itineraryId?: ModelSubscriptionIDInput | null,
-  or?: Array< ModelSubscriptionTripFilterInput | null > | null,
-  owner?: ModelStringInput | null,
-  startDate?: ModelSubscriptionStringInput | null,
+  images?: ModelSubscriptionStringInput | null,
+  nextDeparture?: ModelSubscriptionStringInput | null,
+  or?: Array< ModelSubscriptionTourFilterInput | null > | null,
+  orgId?: ModelSubscriptionIDInput | null,
+  previousCost?: ModelSubscriptionFloatInput | null,
   status?: ModelSubscriptionStringInput | null,
   title?: ModelSubscriptionStringInput | null,
   totalCost?: ModelSubscriptionFloatInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
+  whatsIncluded?: ModelSubscriptionStringInput | null,
+};
+
+export type ModelSubscriptionIntInput = {
+  between?: Array< number | null > | null,
+  eq?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  in?: Array< number | null > | null,
+  le?: number | null,
+  lt?: number | null,
+  ne?: number | null,
+  notIn?: Array< number | null > | null,
 };
 
 export type GetActivityQueryVariables = {
@@ -775,10 +838,6 @@ export type GetGroupQuery = {
     members?: Array< string | null > | null,
     name?: string | null,
     owner?: string | null,
-    trips?:  {
-      __typename: "ModelTripConnection",
-      nextToken?: string | null,
-    } | null,
     updatedAt?: string | null,
   } | null,
 };
@@ -798,22 +857,6 @@ export type GetItineraryQuery = {
     id: string,
     notes?: string | null,
     owner?: string | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -832,22 +875,6 @@ export type GetPaymentQuery = {
     id: string,
     owner?: string | null,
     status?: PaymentStatus | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
     userId?: string | null,
@@ -867,61 +894,52 @@ export type GetProfileQuery = {
     email?: string | null,
     id: string,
     owner?: string | null,
+    profilePicture?: string | null,
     updatedAt?: string | null,
   } | null,
 };
 
-export type GetTripQueryVariables = {
+export type GetTourQueryVariables = {
   id: string,
 };
 
-export type GetTripQuery = {
-  getTrip?:  {
-    __typename: "Trip",
+export type GetTourQuery = {
+  getTour?:  {
+    __typename: "Tour",
     createdAt?: string | null,
+    days?: number | null,
     description?: string | null,
     destination?: string | null,
-    endDate?: string | null,
-    group?:  {
-      __typename: "Group",
-      adminId?: string | null,
-      createdAt?: string | null,
-      description?: string | null,
-      id: string,
-      members?: Array< string | null > | null,
-      name?: string | null,
-      owner?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    groupId?: string | null,
+    groupSize?: number | null,
+    highlights?: Array< string | null > | null,
     id: string,
-    itinerary?:  {
-      __typename: "Itinerary",
-      createdAt?: string | null,
-      id: string,
-      notes?: string | null,
-      owner?: string | null,
-      tripId?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    itineraryId?: string | null,
-    owner?: string | null,
-    payments?:  {
-      __typename: "ModelPaymentConnection",
-      nextToken?: string | null,
-    } | null,
-    startDate?: string | null,
-    status?: TripStatus | null,
+    images?: Array< string | null > | null,
+    nextDeparture?: string | null,
+    orgId?: string | null,
+    previousCost?: number | null,
+    status: string,
     title?: string | null,
     totalCost?: number | null,
+    tourItenerary?:  Array< {
+      __typename: "tourItenerary",
+      activities?: Array< string | null > | null,
+      day?: number | null,
+      description?: string | null,
+      image?: string | null,
+      meals?: Array< string | null > | null,
+      title?: string | null,
+    } | null > | null,
     updatedAt?: string | null,
+    whatsIncluded?: Array< string | null > | null,
   } | null,
 };
 
 export type ListActivitiesQueryVariables = {
   filter?: ModelActivityFilterInput | null,
+  id?: string | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListActivitiesQuery = {
@@ -949,8 +967,10 @@ export type ListActivitiesQuery = {
 
 export type ListGroupsQueryVariables = {
   filter?: ModelGroupFilterInput | null,
+  id?: string | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListGroupsQuery = {
@@ -973,8 +993,10 @@ export type ListGroupsQuery = {
 
 export type ListItinerariesQueryVariables = {
   filter?: ModelItineraryFilterInput | null,
+  id?: string | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListItinerariesQuery = {
@@ -995,8 +1017,10 @@ export type ListItinerariesQuery = {
 
 export type ListPaymentsQueryVariables = {
   filter?: ModelPaymentFilterInput | null,
+  id?: string | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListPaymentsQuery = {
@@ -1037,36 +1061,112 @@ export type ListProfilesQuery = {
       email?: string | null,
       id: string,
       owner?: string | null,
+      profilePicture?: string | null,
       updatedAt?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
 };
 
-export type ListTripsQueryVariables = {
-  filter?: ModelTripFilterInput | null,
+export type ListToursQueryVariables = {
+  filter?: ModelTourFilterInput | null,
+  id?: string | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
-export type ListTripsQuery = {
-  listTrips?:  {
-    __typename: "ModelTripConnection",
+export type ListToursQuery = {
+  listTours?:  {
+    __typename: "ModelTourConnection",
     items:  Array< {
-      __typename: "Trip",
+      __typename: "Tour",
       createdAt?: string | null,
+      days?: number | null,
       description?: string | null,
       destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
+      groupSize?: number | null,
+      highlights?: Array< string | null > | null,
       id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
+      images?: Array< string | null > | null,
+      nextDeparture?: string | null,
+      orgId?: string | null,
+      previousCost?: number | null,
+      status: string,
       title?: string | null,
       totalCost?: number | null,
       updatedAt?: string | null,
+      whatsIncluded?: Array< string | null > | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type TourByOrgQueryVariables = {
+  createdAt?: ModelStringKeyConditionInput | null,
+  filter?: ModelTourFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  orgId: string,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type TourByOrgQuery = {
+  tourByOrg?:  {
+    __typename: "ModelTourConnection",
+    items:  Array< {
+      __typename: "Tour",
+      createdAt?: string | null,
+      days?: number | null,
+      description?: string | null,
+      destination?: string | null,
+      groupSize?: number | null,
+      highlights?: Array< string | null > | null,
+      id: string,
+      images?: Array< string | null > | null,
+      nextDeparture?: string | null,
+      orgId?: string | null,
+      previousCost?: number | null,
+      status: string,
+      title?: string | null,
+      totalCost?: number | null,
+      updatedAt?: string | null,
+      whatsIncluded?: Array< string | null > | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type TourByStatusQueryVariables = {
+  createdAt?: ModelStringKeyConditionInput | null,
+  filter?: ModelTourFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  status: string,
+};
+
+export type TourByStatusQuery = {
+  tourByStatus?:  {
+    __typename: "ModelTourConnection",
+    items:  Array< {
+      __typename: "Tour",
+      createdAt?: string | null,
+      days?: number | null,
+      description?: string | null,
+      destination?: string | null,
+      groupSize?: number | null,
+      highlights?: Array< string | null > | null,
+      id: string,
+      images?: Array< string | null > | null,
+      nextDeparture?: string | null,
+      orgId?: string | null,
+      previousCost?: number | null,
+      status: string,
+      title?: string | null,
+      totalCost?: number | null,
+      updatedAt?: string | null,
+      whatsIncluded?: Array< string | null > | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1120,10 +1220,6 @@ export type CreateGroupMutation = {
     members?: Array< string | null > | null,
     name?: string | null,
     owner?: string | null,
-    trips?:  {
-      __typename: "ModelTripConnection",
-      nextToken?: string | null,
-    } | null,
     updatedAt?: string | null,
   } | null,
 };
@@ -1144,22 +1240,6 @@ export type CreateItineraryMutation = {
     id: string,
     notes?: string | null,
     owner?: string | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -1179,22 +1259,6 @@ export type CreatePaymentMutation = {
     id: string,
     owner?: string | null,
     status?: PaymentStatus | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
     userId?: string | null,
@@ -1215,55 +1279,44 @@ export type CreateProfileMutation = {
     email?: string | null,
     id: string,
     owner?: string | null,
+    profilePicture?: string | null,
     updatedAt?: string | null,
   } | null,
 };
 
-export type CreateTripMutationVariables = {
-  condition?: ModelTripConditionInput | null,
-  input: CreateTripInput,
+export type CreateTourMutationVariables = {
+  condition?: ModelTourConditionInput | null,
+  input: CreateTourInput,
 };
 
-export type CreateTripMutation = {
-  createTrip?:  {
-    __typename: "Trip",
+export type CreateTourMutation = {
+  createTour?:  {
+    __typename: "Tour",
     createdAt?: string | null,
+    days?: number | null,
     description?: string | null,
     destination?: string | null,
-    endDate?: string | null,
-    group?:  {
-      __typename: "Group",
-      adminId?: string | null,
-      createdAt?: string | null,
-      description?: string | null,
-      id: string,
-      members?: Array< string | null > | null,
-      name?: string | null,
-      owner?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    groupId?: string | null,
+    groupSize?: number | null,
+    highlights?: Array< string | null > | null,
     id: string,
-    itinerary?:  {
-      __typename: "Itinerary",
-      createdAt?: string | null,
-      id: string,
-      notes?: string | null,
-      owner?: string | null,
-      tripId?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    itineraryId?: string | null,
-    owner?: string | null,
-    payments?:  {
-      __typename: "ModelPaymentConnection",
-      nextToken?: string | null,
-    } | null,
-    startDate?: string | null,
-    status?: TripStatus | null,
+    images?: Array< string | null > | null,
+    nextDeparture?: string | null,
+    orgId?: string | null,
+    previousCost?: number | null,
+    status: string,
     title?: string | null,
     totalCost?: number | null,
+    tourItenerary?:  Array< {
+      __typename: "tourItenerary",
+      activities?: Array< string | null > | null,
+      day?: number | null,
+      description?: string | null,
+      image?: string | null,
+      meals?: Array< string | null > | null,
+      title?: string | null,
+    } | null > | null,
     updatedAt?: string | null,
+    whatsIncluded?: Array< string | null > | null,
   } | null,
 };
 
@@ -1315,10 +1368,6 @@ export type DeleteGroupMutation = {
     members?: Array< string | null > | null,
     name?: string | null,
     owner?: string | null,
-    trips?:  {
-      __typename: "ModelTripConnection",
-      nextToken?: string | null,
-    } | null,
     updatedAt?: string | null,
   } | null,
 };
@@ -1339,22 +1388,6 @@ export type DeleteItineraryMutation = {
     id: string,
     notes?: string | null,
     owner?: string | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -1374,22 +1407,6 @@ export type DeletePaymentMutation = {
     id: string,
     owner?: string | null,
     status?: PaymentStatus | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
     userId?: string | null,
@@ -1410,55 +1427,44 @@ export type DeleteProfileMutation = {
     email?: string | null,
     id: string,
     owner?: string | null,
+    profilePicture?: string | null,
     updatedAt?: string | null,
   } | null,
 };
 
-export type DeleteTripMutationVariables = {
-  condition?: ModelTripConditionInput | null,
-  input: DeleteTripInput,
+export type DeleteTourMutationVariables = {
+  condition?: ModelTourConditionInput | null,
+  input: DeleteTourInput,
 };
 
-export type DeleteTripMutation = {
-  deleteTrip?:  {
-    __typename: "Trip",
+export type DeleteTourMutation = {
+  deleteTour?:  {
+    __typename: "Tour",
     createdAt?: string | null,
+    days?: number | null,
     description?: string | null,
     destination?: string | null,
-    endDate?: string | null,
-    group?:  {
-      __typename: "Group",
-      adminId?: string | null,
-      createdAt?: string | null,
-      description?: string | null,
-      id: string,
-      members?: Array< string | null > | null,
-      name?: string | null,
-      owner?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    groupId?: string | null,
+    groupSize?: number | null,
+    highlights?: Array< string | null > | null,
     id: string,
-    itinerary?:  {
-      __typename: "Itinerary",
-      createdAt?: string | null,
-      id: string,
-      notes?: string | null,
-      owner?: string | null,
-      tripId?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    itineraryId?: string | null,
-    owner?: string | null,
-    payments?:  {
-      __typename: "ModelPaymentConnection",
-      nextToken?: string | null,
-    } | null,
-    startDate?: string | null,
-    status?: TripStatus | null,
+    images?: Array< string | null > | null,
+    nextDeparture?: string | null,
+    orgId?: string | null,
+    previousCost?: number | null,
+    status: string,
     title?: string | null,
     totalCost?: number | null,
+    tourItenerary?:  Array< {
+      __typename: "tourItenerary",
+      activities?: Array< string | null > | null,
+      day?: number | null,
+      description?: string | null,
+      image?: string | null,
+      meals?: Array< string | null > | null,
+      title?: string | null,
+    } | null > | null,
     updatedAt?: string | null,
+    whatsIncluded?: Array< string | null > | null,
   } | null,
 };
 
@@ -1510,10 +1516,6 @@ export type UpdateGroupMutation = {
     members?: Array< string | null > | null,
     name?: string | null,
     owner?: string | null,
-    trips?:  {
-      __typename: "ModelTripConnection",
-      nextToken?: string | null,
-    } | null,
     updatedAt?: string | null,
   } | null,
 };
@@ -1534,22 +1536,6 @@ export type UpdateItineraryMutation = {
     id: string,
     notes?: string | null,
     owner?: string | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -1569,22 +1555,6 @@ export type UpdatePaymentMutation = {
     id: string,
     owner?: string | null,
     status?: PaymentStatus | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
     userId?: string | null,
@@ -1605,55 +1575,44 @@ export type UpdateProfileMutation = {
     email?: string | null,
     id: string,
     owner?: string | null,
+    profilePicture?: string | null,
     updatedAt?: string | null,
   } | null,
 };
 
-export type UpdateTripMutationVariables = {
-  condition?: ModelTripConditionInput | null,
-  input: UpdateTripInput,
+export type UpdateTourMutationVariables = {
+  condition?: ModelTourConditionInput | null,
+  input: UpdateTourInput,
 };
 
-export type UpdateTripMutation = {
-  updateTrip?:  {
-    __typename: "Trip",
+export type UpdateTourMutation = {
+  updateTour?:  {
+    __typename: "Tour",
     createdAt?: string | null,
+    days?: number | null,
     description?: string | null,
     destination?: string | null,
-    endDate?: string | null,
-    group?:  {
-      __typename: "Group",
-      adminId?: string | null,
-      createdAt?: string | null,
-      description?: string | null,
-      id: string,
-      members?: Array< string | null > | null,
-      name?: string | null,
-      owner?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    groupId?: string | null,
+    groupSize?: number | null,
+    highlights?: Array< string | null > | null,
     id: string,
-    itinerary?:  {
-      __typename: "Itinerary",
-      createdAt?: string | null,
-      id: string,
-      notes?: string | null,
-      owner?: string | null,
-      tripId?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    itineraryId?: string | null,
-    owner?: string | null,
-    payments?:  {
-      __typename: "ModelPaymentConnection",
-      nextToken?: string | null,
-    } | null,
-    startDate?: string | null,
-    status?: TripStatus | null,
+    images?: Array< string | null > | null,
+    nextDeparture?: string | null,
+    orgId?: string | null,
+    previousCost?: number | null,
+    status: string,
     title?: string | null,
     totalCost?: number | null,
+    tourItenerary?:  Array< {
+      __typename: "tourItenerary",
+      activities?: Array< string | null > | null,
+      day?: number | null,
+      description?: string | null,
+      image?: string | null,
+      meals?: Array< string | null > | null,
+      title?: string | null,
+    } | null > | null,
     updatedAt?: string | null,
+    whatsIncluded?: Array< string | null > | null,
   } | null,
 };
 
@@ -1705,10 +1664,6 @@ export type OnCreateGroupSubscription = {
     members?: Array< string | null > | null,
     name?: string | null,
     owner?: string | null,
-    trips?:  {
-      __typename: "ModelTripConnection",
-      nextToken?: string | null,
-    } | null,
     updatedAt?: string | null,
   } | null,
 };
@@ -1729,22 +1684,6 @@ export type OnCreateItinerarySubscription = {
     id: string,
     notes?: string | null,
     owner?: string | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -1764,22 +1703,6 @@ export type OnCreatePaymentSubscription = {
     id: string,
     owner?: string | null,
     status?: PaymentStatus | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
     userId?: string | null,
@@ -1800,55 +1723,43 @@ export type OnCreateProfileSubscription = {
     email?: string | null,
     id: string,
     owner?: string | null,
+    profilePicture?: string | null,
     updatedAt?: string | null,
   } | null,
 };
 
-export type OnCreateTripSubscriptionVariables = {
-  filter?: ModelSubscriptionTripFilterInput | null,
-  owner?: string | null,
+export type OnCreateTourSubscriptionVariables = {
+  filter?: ModelSubscriptionTourFilterInput | null,
 };
 
-export type OnCreateTripSubscription = {
-  onCreateTrip?:  {
-    __typename: "Trip",
+export type OnCreateTourSubscription = {
+  onCreateTour?:  {
+    __typename: "Tour",
     createdAt?: string | null,
+    days?: number | null,
     description?: string | null,
     destination?: string | null,
-    endDate?: string | null,
-    group?:  {
-      __typename: "Group",
-      adminId?: string | null,
-      createdAt?: string | null,
-      description?: string | null,
-      id: string,
-      members?: Array< string | null > | null,
-      name?: string | null,
-      owner?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    groupId?: string | null,
+    groupSize?: number | null,
+    highlights?: Array< string | null > | null,
     id: string,
-    itinerary?:  {
-      __typename: "Itinerary",
-      createdAt?: string | null,
-      id: string,
-      notes?: string | null,
-      owner?: string | null,
-      tripId?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    itineraryId?: string | null,
-    owner?: string | null,
-    payments?:  {
-      __typename: "ModelPaymentConnection",
-      nextToken?: string | null,
-    } | null,
-    startDate?: string | null,
-    status?: TripStatus | null,
+    images?: Array< string | null > | null,
+    nextDeparture?: string | null,
+    orgId?: string | null,
+    previousCost?: number | null,
+    status: string,
     title?: string | null,
     totalCost?: number | null,
+    tourItenerary?:  Array< {
+      __typename: "tourItenerary",
+      activities?: Array< string | null > | null,
+      day?: number | null,
+      description?: string | null,
+      image?: string | null,
+      meals?: Array< string | null > | null,
+      title?: string | null,
+    } | null > | null,
     updatedAt?: string | null,
+    whatsIncluded?: Array< string | null > | null,
   } | null,
 };
 
@@ -1900,10 +1811,6 @@ export type OnDeleteGroupSubscription = {
     members?: Array< string | null > | null,
     name?: string | null,
     owner?: string | null,
-    trips?:  {
-      __typename: "ModelTripConnection",
-      nextToken?: string | null,
-    } | null,
     updatedAt?: string | null,
   } | null,
 };
@@ -1924,22 +1831,6 @@ export type OnDeleteItinerarySubscription = {
     id: string,
     notes?: string | null,
     owner?: string | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -1959,22 +1850,6 @@ export type OnDeletePaymentSubscription = {
     id: string,
     owner?: string | null,
     status?: PaymentStatus | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
     userId?: string | null,
@@ -1995,55 +1870,43 @@ export type OnDeleteProfileSubscription = {
     email?: string | null,
     id: string,
     owner?: string | null,
+    profilePicture?: string | null,
     updatedAt?: string | null,
   } | null,
 };
 
-export type OnDeleteTripSubscriptionVariables = {
-  filter?: ModelSubscriptionTripFilterInput | null,
-  owner?: string | null,
+export type OnDeleteTourSubscriptionVariables = {
+  filter?: ModelSubscriptionTourFilterInput | null,
 };
 
-export type OnDeleteTripSubscription = {
-  onDeleteTrip?:  {
-    __typename: "Trip",
+export type OnDeleteTourSubscription = {
+  onDeleteTour?:  {
+    __typename: "Tour",
     createdAt?: string | null,
+    days?: number | null,
     description?: string | null,
     destination?: string | null,
-    endDate?: string | null,
-    group?:  {
-      __typename: "Group",
-      adminId?: string | null,
-      createdAt?: string | null,
-      description?: string | null,
-      id: string,
-      members?: Array< string | null > | null,
-      name?: string | null,
-      owner?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    groupId?: string | null,
+    groupSize?: number | null,
+    highlights?: Array< string | null > | null,
     id: string,
-    itinerary?:  {
-      __typename: "Itinerary",
-      createdAt?: string | null,
-      id: string,
-      notes?: string | null,
-      owner?: string | null,
-      tripId?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    itineraryId?: string | null,
-    owner?: string | null,
-    payments?:  {
-      __typename: "ModelPaymentConnection",
-      nextToken?: string | null,
-    } | null,
-    startDate?: string | null,
-    status?: TripStatus | null,
+    images?: Array< string | null > | null,
+    nextDeparture?: string | null,
+    orgId?: string | null,
+    previousCost?: number | null,
+    status: string,
     title?: string | null,
     totalCost?: number | null,
+    tourItenerary?:  Array< {
+      __typename: "tourItenerary",
+      activities?: Array< string | null > | null,
+      day?: number | null,
+      description?: string | null,
+      image?: string | null,
+      meals?: Array< string | null > | null,
+      title?: string | null,
+    } | null > | null,
     updatedAt?: string | null,
+    whatsIncluded?: Array< string | null > | null,
   } | null,
 };
 
@@ -2095,10 +1958,6 @@ export type OnUpdateGroupSubscription = {
     members?: Array< string | null > | null,
     name?: string | null,
     owner?: string | null,
-    trips?:  {
-      __typename: "ModelTripConnection",
-      nextToken?: string | null,
-    } | null,
     updatedAt?: string | null,
   } | null,
 };
@@ -2119,22 +1978,6 @@ export type OnUpdateItinerarySubscription = {
     id: string,
     notes?: string | null,
     owner?: string | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -2154,22 +1997,6 @@ export type OnUpdatePaymentSubscription = {
     id: string,
     owner?: string | null,
     status?: PaymentStatus | null,
-    trip?:  {
-      __typename: "Trip",
-      createdAt?: string | null,
-      description?: string | null,
-      destination?: string | null,
-      endDate?: string | null,
-      groupId?: string | null,
-      id: string,
-      itineraryId?: string | null,
-      owner?: string | null,
-      startDate?: string | null,
-      status?: TripStatus | null,
-      title?: string | null,
-      totalCost?: number | null,
-      updatedAt?: string | null,
-    } | null,
     tripId?: string | null,
     updatedAt?: string | null,
     userId?: string | null,
@@ -2190,54 +2017,42 @@ export type OnUpdateProfileSubscription = {
     email?: string | null,
     id: string,
     owner?: string | null,
+    profilePicture?: string | null,
     updatedAt?: string | null,
   } | null,
 };
 
-export type OnUpdateTripSubscriptionVariables = {
-  filter?: ModelSubscriptionTripFilterInput | null,
-  owner?: string | null,
+export type OnUpdateTourSubscriptionVariables = {
+  filter?: ModelSubscriptionTourFilterInput | null,
 };
 
-export type OnUpdateTripSubscription = {
-  onUpdateTrip?:  {
-    __typename: "Trip",
+export type OnUpdateTourSubscription = {
+  onUpdateTour?:  {
+    __typename: "Tour",
     createdAt?: string | null,
+    days?: number | null,
     description?: string | null,
     destination?: string | null,
-    endDate?: string | null,
-    group?:  {
-      __typename: "Group",
-      adminId?: string | null,
-      createdAt?: string | null,
-      description?: string | null,
-      id: string,
-      members?: Array< string | null > | null,
-      name?: string | null,
-      owner?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    groupId?: string | null,
+    groupSize?: number | null,
+    highlights?: Array< string | null > | null,
     id: string,
-    itinerary?:  {
-      __typename: "Itinerary",
-      createdAt?: string | null,
-      id: string,
-      notes?: string | null,
-      owner?: string | null,
-      tripId?: string | null,
-      updatedAt?: string | null,
-    } | null,
-    itineraryId?: string | null,
-    owner?: string | null,
-    payments?:  {
-      __typename: "ModelPaymentConnection",
-      nextToken?: string | null,
-    } | null,
-    startDate?: string | null,
-    status?: TripStatus | null,
+    images?: Array< string | null > | null,
+    nextDeparture?: string | null,
+    orgId?: string | null,
+    previousCost?: number | null,
+    status: string,
     title?: string | null,
     totalCost?: number | null,
+    tourItenerary?:  Array< {
+      __typename: "tourItenerary",
+      activities?: Array< string | null > | null,
+      day?: number | null,
+      description?: string | null,
+      image?: string | null,
+      meals?: Array< string | null > | null,
+      title?: string | null,
+    } | null > | null,
     updatedAt?: string | null,
+    whatsIncluded?: Array< string | null > | null,
   } | null,
 };

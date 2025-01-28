@@ -4,7 +4,9 @@ import useHandleError from "@/hooks/use-handle-error";
 import { UpdateProfileInput } from "@/types/API";
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  AuthSession,
   AuthUser,
+  fetchAuthSession,
   fetchUserAttributes,
   FetchUserAttributesOutput,
   getCurrentUser,
@@ -21,6 +23,7 @@ type IProfileProvider = {
   loadingUser: boolean;
   refetchUser: () => void;
   updateUserProfile: UseMutationResult<IProfile | null, Error, UpdateProfileInput, unknown>;
+  authSession: AuthSession | null;
 };
 
 export const [useProfile, ProfileContextProvider] = createCtx<IProfileProvider>();
@@ -28,6 +31,7 @@ export const [useProfile, ProfileContextProvider] = createCtx<IProfileProvider>(
 export const ProfileProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [userAttributes, setUserAttributes] = useState<FetchUserAttributesOutput | null>(null);
+  const [authSession, setAuthSession] = useState<AuthSession | null>(null);
   const [userId, setUserId] = useState<string | undefined>(undefined);
   const router = useRouter();
   const pathname = usePathname();
@@ -99,6 +103,8 @@ export const ProfileProvider: FC<{ children: ReactNode }> = ({ children }) => {
       try {
         const user = await getCurrentUser();
         const _attributes = await fetchUserAttributes();
+        const session = await fetchAuthSession();
+        setAuthSession(session);
         setUserAttributes(_attributes);
         setCurrentUser(user);
         const _userId = `${user.userId}::${user.username}`;
@@ -120,6 +126,7 @@ export const ProfileProvider: FC<{ children: ReactNode }> = ({ children }) => {
     refetchUser: refetch,
     updateUserProfile,
     userAttributes,
+    authSession,
   };
 
   return <ProfileContextProvider value={values}>{children}</ProfileContextProvider>;

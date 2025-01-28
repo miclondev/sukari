@@ -40,3 +40,5 @@ amplify_outputs*
 amplifyconfiguration*
 
 .scripts
+
+.env*

@@ -8,6 +8,7 @@ const schema = a
 
     Profile: a.model({
       id: a.id(),
+      profilePicture: a.string(),
       accountType: a.enum(["user", "organization"]),
       cognitoUsername: a.string(),
       email: a.string(),

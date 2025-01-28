@@ -54,10 +54,6 @@ export const createGroup = /* GraphQL */ `mutation CreateGroup(
     members
     name
     owner
-    trips {
-      nextToken
-      __typename
-    }
     updatedAt
     __typename
   }
@@ -79,22 +75,6 @@ export const createItinerary = /* GraphQL */ `mutation CreateItinerary(
     id
     notes
     owner
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     __typename
@@ -115,22 +95,6 @@ export const createPayment = /* GraphQL */ `mutation CreatePayment(
     id
     owner
     status
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     userId
@@ -152,6 +116,7 @@ export const createProfile = /* GraphQL */ `mutation CreateProfile(
     email
     id
     owner
+    profilePicture
     updatedAt
     __typename
   }
@@ -160,54 +125,42 @@ export const createProfile = /* GraphQL */ `mutation CreateProfile(
   APITypes.CreateProfileMutationVariables,
   APITypes.CreateProfileMutation
 >;
-export const createTrip = /* GraphQL */ `mutation CreateTrip(
-  $condition: ModelTripConditionInput
-  $input: CreateTripInput!
+export const createTour = /* GraphQL */ `mutation CreateTour(
+  $condition: ModelTourConditionInput
+  $input: CreateTourInput!
 ) {
-  createTrip(condition: $condition, input: $input) {
+  createTour(condition: $condition, input: $input) {
     createdAt
+    days
     description
     destination
-    endDate
-    group {
-      adminId
-      createdAt
-      description
-      id
-      members
-      name
-      owner
-      updatedAt
-      __typename
-    }
-    groupId
+    groupSize
+    highlights
     id
-    itinerary {
-      createdAt
-      id
-      notes
-      owner
-      tripId
-      updatedAt
-      __typename
-    }
-    itineraryId
-    owner
-    payments {
-      nextToken
-      __typename
-    }
-    startDate
+    images
+    nextDeparture
+    orgId
+    previousCost
     status
     title
     totalCost
+    tourItenerary {
+      activities
+      day
+      description
+      image
+      meals
+      title
+      __typename
+    }
     updatedAt
+    whatsIncluded
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateTripMutationVariables,
-  APITypes.CreateTripMutation
+  APITypes.CreateTourMutationVariables,
+  APITypes.CreateTourMutation
 >;
 export const deleteActivity = /* GraphQL */ `mutation DeleteActivity(
   $condition: ModelActivityConditionInput
@@ -255,10 +208,6 @@ export const deleteGroup = /* GraphQL */ `mutation DeleteGroup(
     members
     name
     owner
-    trips {
-      nextToken
-      __typename
-    }
     updatedAt
     __typename
   }
@@ -280,22 +229,6 @@ export const deleteItinerary = /* GraphQL */ `mutation DeleteItinerary(
     id
     notes
     owner
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     __typename
@@ -316,22 +249,6 @@ export const deletePayment = /* GraphQL */ `mutation DeletePayment(
     id
     owner
     status
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     userId
@@ -353,6 +270,7 @@ export const deleteProfile = /* GraphQL */ `mutation DeleteProfile(
     email
     id
     owner
+    profilePicture
     updatedAt
     __typename
   }
@@ -361,54 +279,42 @@ export const deleteProfile = /* GraphQL */ `mutation DeleteProfile(
   APITypes.DeleteProfileMutationVariables,
   APITypes.DeleteProfileMutation
 >;
-export const deleteTrip = /* GraphQL */ `mutation DeleteTrip(
-  $condition: ModelTripConditionInput
-  $input: DeleteTripInput!
+export const deleteTour = /* GraphQL */ `mutation DeleteTour(
+  $condition: ModelTourConditionInput
+  $input: DeleteTourInput!
 ) {
-  deleteTrip(condition: $condition, input: $input) {
+  deleteTour(condition: $condition, input: $input) {
     createdAt
+    days
     description
     destination
-    endDate
-    group {
-      adminId
-      createdAt
-      description
-      id
-      members
-      name
-      owner
-      updatedAt
-      __typename
-    }
-    groupId
+    groupSize
+    highlights
     id
-    itinerary {
-      createdAt
-      id
-      notes
-      owner
-      tripId
-      updatedAt
-      __typename
-    }
-    itineraryId
-    owner
-    payments {
-      nextToken
-      __typename
-    }
-    startDate
+    images
+    nextDeparture
+    orgId
+    previousCost
     status
     title
     totalCost
+    tourItenerary {
+      activities
+      day
+      description
+      image
+      meals
+      title
+      __typename
+    }
     updatedAt
+    whatsIncluded
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteTripMutationVariables,
-  APITypes.DeleteTripMutation
+  APITypes.DeleteTourMutationVariables,
+  APITypes.DeleteTourMutation
 >;
 export const updateActivity = /* GraphQL */ `mutation UpdateActivity(
   $condition: ModelActivityConditionInput
@@ -456,10 +362,6 @@ export const updateGroup = /* GraphQL */ `mutation UpdateGroup(
     members
     name
     owner
-    trips {
-      nextToken
-      __typename
-    }
     updatedAt
     __typename
   }
@@ -481,22 +383,6 @@ export const updateItinerary = /* GraphQL */ `mutation UpdateItinerary(
     id
     notes
     owner
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     __typename
@@ -517,22 +403,6 @@ export const updatePayment = /* GraphQL */ `mutation UpdatePayment(
     id
     owner
     status
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     userId
@@ -554,6 +424,7 @@ export const updateProfile = /* GraphQL */ `mutation UpdateProfile(
     email
     id
     owner
+    profilePicture
     updatedAt
     __typename
   }
@@ -562,52 +433,40 @@ export const updateProfile = /* GraphQL */ `mutation UpdateProfile(
   APITypes.UpdateProfileMutationVariables,
   APITypes.UpdateProfileMutation
 >;
-export const updateTrip = /* GraphQL */ `mutation UpdateTrip(
-  $condition: ModelTripConditionInput
-  $input: UpdateTripInput!
+export const updateTour = /* GraphQL */ `mutation UpdateTour(
+  $condition: ModelTourConditionInput
+  $input: UpdateTourInput!
 ) {
-  updateTrip(condition: $condition, input: $input) {
+  updateTour(condition: $condition, input: $input) {
     createdAt
+    days
     description
     destination
-    endDate
-    group {
-      adminId
-      createdAt
-      description
-      id
-      members
-      name
-      owner
-      updatedAt
-      __typename
-    }
-    groupId
+    groupSize
+    highlights
     id
-    itinerary {
-      createdAt
-      id
-      notes
-      owner
-      tripId
-      updatedAt
-      __typename
-    }
-    itineraryId
-    owner
-    payments {
-      nextToken
-      __typename
-    }
-    startDate
+    images
+    nextDeparture
+    orgId
+    previousCost
     status
     title
     totalCost
+    tourItenerary {
+      activities
+      day
+      description
+      image
+      meals
+      title
+      __typename
+    }
     updatedAt
+    whatsIncluded
     __typename
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateTripMutationVariables,
-  APITypes.UpdateTripMutation
+  APITypes.UpdateTourMutationVariables,
+  APITypes.UpdateTourMutation
 >;

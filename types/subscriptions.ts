@@ -54,10 +54,6 @@ export const onCreateGroup = /* GraphQL */ `subscription OnCreateGroup(
     members
     name
     owner
-    trips {
-      nextToken
-      __typename
-    }
     updatedAt
     __typename
   }
@@ -79,22 +75,6 @@ export const onCreateItinerary = /* GraphQL */ `subscription OnCreateItinerary(
     id
     notes
     owner
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     __typename
@@ -115,22 +95,6 @@ export const onCreatePayment = /* GraphQL */ `subscription OnCreatePayment(
     id
     owner
     status
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     userId
@@ -152,6 +116,7 @@ export const onCreateProfile = /* GraphQL */ `subscription OnCreateProfile(
     email
     id
     owner
+    profilePicture
     updatedAt
     __typename
   }
@@ -160,54 +125,39 @@ export const onCreateProfile = /* GraphQL */ `subscription OnCreateProfile(
   APITypes.OnCreateProfileSubscriptionVariables,
   APITypes.OnCreateProfileSubscription
 >;
-export const onCreateTrip = /* GraphQL */ `subscription OnCreateTrip(
-  $filter: ModelSubscriptionTripFilterInput
-  $owner: String
-) {
-  onCreateTrip(filter: $filter, owner: $owner) {
+export const onCreateTour = /* GraphQL */ `subscription OnCreateTour($filter: ModelSubscriptionTourFilterInput) {
+  onCreateTour(filter: $filter) {
     createdAt
+    days
     description
     destination
-    endDate
-    group {
-      adminId
-      createdAt
-      description
-      id
-      members
-      name
-      owner
-      updatedAt
-      __typename
-    }
-    groupId
+    groupSize
+    highlights
     id
-    itinerary {
-      createdAt
-      id
-      notes
-      owner
-      tripId
-      updatedAt
-      __typename
-    }
-    itineraryId
-    owner
-    payments {
-      nextToken
-      __typename
-    }
-    startDate
+    images
+    nextDeparture
+    orgId
+    previousCost
     status
     title
     totalCost
+    tourItenerary {
+      activities
+      day
+      description
+      image
+      meals
+      title
+      __typename
+    }
     updatedAt
+    whatsIncluded
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateTripSubscriptionVariables,
-  APITypes.OnCreateTripSubscription
+  APITypes.OnCreateTourSubscriptionVariables,
+  APITypes.OnCreateTourSubscription
 >;
 export const onDeleteActivity = /* GraphQL */ `subscription OnDeleteActivity(
   $filter: ModelSubscriptionActivityFilterInput
@@ -255,10 +205,6 @@ export const onDeleteGroup = /* GraphQL */ `subscription OnDeleteGroup(
     members
     name
     owner
-    trips {
-      nextToken
-      __typename
-    }
     updatedAt
     __typename
   }
@@ -280,22 +226,6 @@ export const onDeleteItinerary = /* GraphQL */ `subscription OnDeleteItinerary(
     id
     notes
     owner
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     __typename
@@ -316,22 +246,6 @@ export const onDeletePayment = /* GraphQL */ `subscription OnDeletePayment(
     id
     owner
     status
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     userId
@@ -353,6 +267,7 @@ export const onDeleteProfile = /* GraphQL */ `subscription OnDeleteProfile(
     email
     id
     owner
+    profilePicture
     updatedAt
     __typename
   }
@@ -361,54 +276,39 @@ export const onDeleteProfile = /* GraphQL */ `subscription OnDeleteProfile(
   APITypes.OnDeleteProfileSubscriptionVariables,
   APITypes.OnDeleteProfileSubscription
 >;
-export const onDeleteTrip = /* GraphQL */ `subscription OnDeleteTrip(
-  $filter: ModelSubscriptionTripFilterInput
-  $owner: String
-) {
-  onDeleteTrip(filter: $filter, owner: $owner) {
+export const onDeleteTour = /* GraphQL */ `subscription OnDeleteTour($filter: ModelSubscriptionTourFilterInput) {
+  onDeleteTour(filter: $filter) {
     createdAt
+    days
     description
     destination
-    endDate
-    group {
-      adminId
-      createdAt
-      description
-      id
-      members
-      name
-      owner
-      updatedAt
-      __typename
-    }
-    groupId
+    groupSize
+    highlights
     id
-    itinerary {
-      createdAt
-      id
-      notes
-      owner
-      tripId
-      updatedAt
-      __typename
-    }
-    itineraryId
-    owner
-    payments {
-      nextToken
-      __typename
-    }
-    startDate
+    images
+    nextDeparture
+    orgId
+    previousCost
     status
     title
     totalCost
+    tourItenerary {
+      activities
+      day
+      description
+      image
+      meals
+      title
+      __typename
+    }
     updatedAt
+    whatsIncluded
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteTripSubscriptionVariables,
-  APITypes.OnDeleteTripSubscription
+  APITypes.OnDeleteTourSubscriptionVariables,
+  APITypes.OnDeleteTourSubscription
 >;
 export const onUpdateActivity = /* GraphQL */ `subscription OnUpdateActivity(
   $filter: ModelSubscriptionActivityFilterInput
@@ -456,10 +356,6 @@ export const onUpdateGroup = /* GraphQL */ `subscription OnUpdateGroup(
     members
     name
     owner
-    trips {
-      nextToken
-      __typename
-    }
     updatedAt
     __typename
   }
@@ -481,22 +377,6 @@ export const onUpdateItinerary = /* GraphQL */ `subscription OnUpdateItinerary(
     id
     notes
     owner
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     __typename
@@ -517,22 +397,6 @@ export const onUpdatePayment = /* GraphQL */ `subscription OnUpdatePayment(
     id
     owner
     status
-    trip {
-      createdAt
-      description
-      destination
-      endDate
-      groupId
-      id
-      itineraryId
-      owner
-      startDate
-      status
-      title
-      totalCost
-      updatedAt
-      __typename
-    }
     tripId
     updatedAt
     userId
@@ -554,6 +418,7 @@ export const onUpdateProfile = /* GraphQL */ `subscription OnUpdateProfile(
     email
     id
     owner
+    profilePicture
     updatedAt
     __typename
   }
@@ -562,52 +427,37 @@ export const onUpdateProfile = /* GraphQL */ `subscription OnUpdateProfile(
   APITypes.OnUpdateProfileSubscriptionVariables,
   APITypes.OnUpdateProfileSubscription
 >;
-export const onUpdateTrip = /* GraphQL */ `subscription OnUpdateTrip(
-  $filter: ModelSubscriptionTripFilterInput
-  $owner: String
-) {
-  onUpdateTrip(filter: $filter, owner: $owner) {
+export const onUpdateTour = /* GraphQL */ `subscription OnUpdateTour($filter: ModelSubscriptionTourFilterInput) {
+  onUpdateTour(filter: $filter) {
     createdAt
+    days
     description
     destination
-    endDate
-    group {
-      adminId
-      createdAt
-      description
-      id
-      members
-      name
-      owner
-      updatedAt
-      __typename
-    }
-    groupId
+    groupSize
+    highlights
     id
-    itinerary {
-      createdAt
-      id
-      notes
-      owner
-      tripId
-      updatedAt
-      __typename
-    }
-    itineraryId
-    owner
-    payments {
-      nextToken
-      __typename
-    }
-    startDate
+    images
+    nextDeparture
+    orgId
+    previousCost
     status
     title
     totalCost
+    tourItenerary {
+      activities
+      day
+      description
+      image
+      meals
+      title
+      __typename
+    }
     updatedAt
+    whatsIncluded
     __typename
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateTripSubscriptionVariables,
-  APITypes.OnUpdateTripSubscription
+  APITypes.OnUpdateTourSubscriptionVariables,
+  APITypes.OnUpdateTourSubscription
 >;
