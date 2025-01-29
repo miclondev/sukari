@@ -3,12 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { MainNav } from "./main-nav";
 import { UserNav } from "./user-nav";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="bg-white border-b relative">
@@ -18,7 +20,9 @@ export function Header() {
             <Link href="/" className="text-xl font-bold  text-ef-teal transition-colors">
               Sukari
             </Link>
-            <MainNav className="hidden md:flex" />
+            {pathname.includes("/admin") || pathname.includes("/dashboard") ? null : (
+              <MainNav className="hidden md:flex" />
+            )}
           </div>
           <div className="flex items-center space-x-4">
             <UserNav />
