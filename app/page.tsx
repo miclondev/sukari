@@ -1,10 +1,24 @@
 "use client";
 
+import { ToursGridSkeleton } from "@/components/skeletons/tours-grid-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Calendar, MapPin, Star, Users } from "lucide-react";
+import { useTourByStatus } from "@/hooks/data/useTours";
+import {
+  Calendar,
+  CreditCard,
+  HeadphonesIcon,
+  Leaf,
+  Lock,
+  MapPin,
+  Shield,
+  Users,
+  Users2,
+  Utensils,
+} from "lucide-react";
 import Link from "next/link";
+import { TourCard } from "./tours/_components/tour-card";
 
 const featuredTours = [
   {
@@ -42,7 +56,53 @@ const featuredTours = [
   },
 ];
 
+const whyTravelersLoveUs = [
+  {
+    icon: Utensils,
+    title: "Authentic Experiences",
+    description:
+      "Cook with Maasai families, track wildlife with Samburu guides, or drum at a Swahili village festival – no tourist traps, just real connections.",
+    image:
+      "https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&q=80&w=1200",
+  },
+  {
+    icon: Users2,
+    title: "Travel with a Squad",
+    description:
+      "Join existing groups or start your own. Solo travelers welcome! Meet people who love adventure as much as you do.",
+    image:
+      "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&q=80&w=1200",
+  },
+  {
+    icon: Shield,
+    title: "Local Expertise, Global Standards",
+    description:
+      "Every host is vetted. Every trip gives back to communities. Experience authentic travel with peace of mind.",
+    image:
+      "https://images.unsplash.com/photo-1528605105345-5344ea20e269?auto=format&fit=crop&q=80&w=1200",
+  },
+];
+
+const trustAndSafety = [
+  {
+    icon: Lock,
+    label: "Verified hosts",
+  },
+  {
+    icon: HeadphonesIcon,
+    label: "24/7 support",
+  },
+  {
+    icon: CreditCard,
+    label: "Secure payments",
+  },
+  {
+    icon: Leaf,
+    label: "Sustainable travel pledge",
+  },
+];
 export default function Home() {
+  const { data, isLoading } = useTourByStatus("ACTIVE", 3);
   return (
     <div className="min-h-screen">
       {/* Promo Banner */}
@@ -52,13 +112,13 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-semibold mb-2">
+        {/* <h1 className="text-2xl font-semibold mb-2">
           Immersive guided tours, all around the globe
         </h1>
         <p className="text-muted-foreground mb-8">
           Follow with a friend, the whole family, or solo. However—and whenever—you want to go, our
           expert-planned group travel experiences make it easy to see the world.
-        </p>
+        </p> */}
 
         <div className="grid md:grid-cols-1 gap-6 mb-12">
           <Card className="relative overflow-hidden h-[400px] group">
@@ -67,13 +127,25 @@ export default function Home() {
               alt="Greece Tours"
               className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/40 p-8 flex flex-col justify-end text-white">
-              <h2 className="text-3xl font-bold mb-4">
-                Choose from our curated selection of tours
-              </h2>
-              <Button className="w-fit bg-white text-ef-dark hover:bg-white/90">
-                Browse all tours
-              </Button>
+            <div className="absolute inset-0 bg-black/60 p-8 flex flex-col justify-end text-white">
+              <h2 className="text-3xl font-bold mb-4">Discover, Travel, Together.</h2>
+              <p className="font-semibold ">
+                Join small-group trips led by local experts, forge friendships, and explore hidden
+                gems{" "}
+              </p>
+
+              <p className="font-semibold mb-4">
+                from sunrise safaris to cultural exchanges in vibrant communities.
+              </p>
+
+              <div className="flex gap-6">
+                <Button className="w-fit bg-white text-ef-dark hover:bg-white/90" asChild>
+                  <Link href="/tours">Browse all tours</Link>
+                </Button>
+                <Button className="w-fit bg-white text-ef-dark hover:bg-white/90" asChild>
+                  <Link href="/organize">Create a Private Group</Link>
+                </Button>
+              </div>
             </div>
           </Card>
 
@@ -134,46 +206,45 @@ export default function Home() {
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6">Ready to start traveling?</h2>
           <p className="text-muted-foreground mb-8">
-            Choose from more than 200 one-of-a-kind group travel experiences, carefully designed by
-            experts, led by locals, and made for you.
+            Choose from one-of-a-kind group travel experiences.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featuredTours.map((tour) => (
-              <Card key={tour.id} className="overflow-hidden border-ef-light group">
-                <Link href={`/tours/${tour.slug}`}>
-                  <div className="relative h-48">
-                    <img
-                      src={tour.image}
-                      alt={tour.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105"
-                    />
+          <div className="max-w-7xl mx-auto px-4 py-8">
+            {" "}
+            {isLoading ? (
+              <ToursGridSkeleton />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {(data || []).map((tour) => (
+                  <TourCard key={tour.id} tour={tour} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Why Travelers Love Us Section */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-center">Why Travelers Love Us</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {whyTravelersLoveUs.map((item, index) => (
+              <Card key={index} className="overflow-hidden group">
+                <div className="relative h-48">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="absolute top-4 left-4">
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                      <item.icon className="w-5 h-5 text-ef-teal" />
+                    </div>
                   </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-semibold mb-2 group-hover:text-ef-orange transition-colors">
-                      {tour.title}
-                    </h3>
-                    <div className="flex items-center mb-2">
-                      <Star className="w-4 h-4 text-ef-orange mr-1" />
-                      <span className="text-sm text-muted-foreground">{tour.rating}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm text-muted-foreground">From</p>
-                        <p className="font-semibold">${tour.price}</p>
-                        <p className="text-sm line-through text-muted-foreground">
-                          ${tour.originalPrice}
-                        </p>
-                      </div>
-                      <Button
-                        variant="outline"
-                        className="text-sm border-ef-orange text-ef-orange hover:bg-ef-orange hover:text-white"
-                      >
-                        View tour
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Link>
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.description}</p>
+                </CardContent>
               </Card>
             ))}
           </div>
@@ -187,6 +258,24 @@ export default function Home() {
             <Button className="bg-ef-orange hover:bg-ef-slate text-white">Submit</Button>
           </div>
         </Card>
+
+        {/* Trust & Safety Section */}
+        <div className="mb-12 bg-gray-50 rounded-lg p-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-2">Trust & Safety</h2>
+            <p className="text-muted-foreground">Your peace of mind is our top priority</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {trustAndSafety.map((item, index) => (
+              <div key={index} className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-ef-teal/10 rounded-full flex items-center justify-center mb-3">
+                  <item.icon className="w-6 h-6 text-ef-teal" />
+                </div>
+                <span className="text-sm font-medium">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   );

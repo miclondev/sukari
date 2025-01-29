@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { v4 as uuidv4 } from "uuid";
 import { BasicInfoSection } from "../_components/basic-info-section";
 import { GenerateTour } from "../_components/generate-ai";
 import { HighlightsSection } from "../_components/highlights-section";
@@ -17,6 +18,16 @@ import { ImagesSection } from "../_components/images-section";
 import { ItinerarySection } from "../_components/itinerary-section";
 import { TourFormValues, tourSchema } from "./types";
 import { WhatsIncludedSection } from "./whatsincluded-section";
+
+const generateSlugId = (title: string) => {
+  // Generate a unique slug id for the tour
+  const id = uuidv4();
+  const slug = title
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+  return `${slug}-${id.slice(0, 10)}`;
+};
 
 export function SingleTourForm() {
   const router = useRouter();
@@ -94,6 +105,7 @@ export function SingleTourForm() {
         toast.success("Tour updated successfully");
       } else {
         const response = await createTour.mutateAsync({
+          id: generateSlugId(values.title),
           title: values.title,
           orgId: "admin",
           description: values.description,

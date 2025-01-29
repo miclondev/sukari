@@ -25,7 +25,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="w-64 min-h-screen bg-ef-teal text-white p-6">
           <div className="mb-8">
             <Link href="/" className="text-2xl font-bold">
-              EF Tours
+              Sukari
             </Link>
           </div>
           <nav className="space-y-2">

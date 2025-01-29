@@ -100,7 +100,6 @@ export function GenerateTour({ form }: { form: any }) {
           <Button disabled={loading} onClick={makeRequest} type="submit">
             {loading && <Loader />}
             {loading ? "Generating..." : "Generate"}
-            Generate
           </Button>
         </DialogFooter>
       </DialogContent>

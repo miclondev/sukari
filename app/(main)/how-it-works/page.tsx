@@ -24,10 +24,10 @@ export default function HowItWorksPage() {
       {/* Hero Section */}
       <div className="bg-ef-teal text-white py-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">How EF Tours Works</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">How Sukari Works</h1>
           <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
-            Planning your dream trip is easy with EF Tours. We handle all the details so you can
-            focus on creating unforgettable memories.
+            Planning your dream trip is easy with Sukari. We handle all the details so you can focus
+            on creating unforgettable memories.
           </p>
           <Button asChild size="lg" className="bg-white text-ef-teal hover:bg-white/90">
             <Link href="/tours">Browse Tours</Link>
@@ -72,7 +72,7 @@ export default function HowItWorksPage() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Why Travel with EF Tours</h2>
+            <h2 className="text-3xl font-bold mb-4">Why Travel with Sukari</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               We&apos;ve been creating unforgettable travel experiences for over 50 years.
               Here&apos;s what makes us different.

@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useClient from "../use-client";
 
 // Types
-export type BotStatus = "ACTIVE" | "PAUSED" | "ERROR";
+export type TourStatus = "ACTIVE" | "INACTIVE";
 
 // Query Keys
 export const tourKeys = {
@@ -48,7 +48,7 @@ export const useOrgTours = (orgId: string) => {
   });
 };
 
-export const useTourByStatus = (status: string) => {
+export const useTourByStatus = (status: string, limit = 50) => {
   const { Tour } = useClient();
   return useQuery({
     queryKey: tourKeys.list({ status }),
@@ -57,6 +57,7 @@ export const useTourByStatus = (status: string) => {
         { status },
         {
           sortDirection: "DESC",
+          limit,
         }
       );
       if (errors) {
@@ -139,7 +140,7 @@ export const useUpdateTourStatus = () => {
   const queryClient = useQueryClient();
   const { Tour } = useClient();
   return useMutation({
-    mutationFn: async ({ id, status }: { id: string; status: BotStatus }) => {
+    mutationFn: async ({ id, status }: { id: string; status: TourStatus }) => {
       const { data, errors } = await Tour.update({
         id,
         status,

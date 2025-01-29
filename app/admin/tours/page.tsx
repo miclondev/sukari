@@ -3,13 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useDeleteTour, useOrgTours } from "@/hooks/data/useTours";
-import { Calendar, Eye, Pen, Plus, Search, Trash2 } from "lucide-react";
+import { useDeleteTour, useOrgTours, useUpdateTourStatus } from "@/hooks/data/useTours";
+import clsx from "clsx";
+import { Calendar, Eye, Pen, Plus, Power, Search, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminToursPage() {
   const { data } = useOrgTours("admin");
   const deleteTour = useDeleteTour();
+  const updateStatus = useUpdateTourStatus();
 
   const handleDelete = async (id: string) => {
     const confirm = window.confirm("Are you sure you want to delete this tour?");
@@ -66,7 +68,7 @@ export default function AdminToursPage() {
                   <span>|</span>
                   <span>${tour.totalCost}</span>
                   <span>|</span>
-                  <span>Active</span>
+                  <span>{tour.status}</span>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
@@ -81,6 +83,25 @@ export default function AdminToursPage() {
                     <Pen className="w-4 h-4 mr-2" />
                     Edit
                   </Link>
+                </Button>
+                <Button
+                  onClick={() =>
+                    updateStatus.mutateAsync({
+                      id: tour.id as string,
+                      status: tour.status === "ACTIVE" ? "INACTIVE" : "ACTIVE",
+                    })
+                  }
+                  variant="outline"
+                  size="sm"
+                  disabled={updateStatus.isPending}
+                >
+                  <Power
+                    className={clsx(
+                      tour.status === "ACTIVE" ? "text-red-600" : "text-green-600",
+                      "w-4 h-4 mr-2 "
+                    )}
+                  />
+                  {tour.status === "ACTIVE" ? "Deactivate" : "Activate"}
                 </Button>
                 <Button variant="outline" size="sm" onClick={() => handleDelete(tour.id as string)}>
                   <Trash2 className="w-4 h-4 mr-2" />

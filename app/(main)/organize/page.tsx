@@ -2,11 +2,13 @@ export default function OrganizePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold mb-4">Organize a Group Tour</h1>
-      <p className="text-muted-foreground mb-8">Plan an unforgettable experience for your group with our expert travel planners.</p>
-      
+      <p className="text-muted-foreground mb-8">
+        Plan an unforgettable experience for your group with our expert travel planners.
+      </p>
+
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Why organize with EF?</h2>
+          <h2 className="text-2xl font-semibold mb-4">Why organize with Sukari?</h2>
           <ul className="space-y-4">
             <li className="flex items-start">
               <span className="w-2 h-2 bg-[#0A3D2D] rounded-full mt-2 mr-2"></span>
@@ -26,12 +28,14 @@ export default function OrganizePage() {
             </li>
           </ul>
         </div>
-        
+
         <div>
           <h2 className="text-2xl font-semibold mb-4">Get Started</h2>
           <form className="space-y-4">
             <div>
-              <label htmlFor="groupName" className="block text-sm font-medium mb-1">Group Name</label>
+              <label htmlFor="groupName" className="block text-sm font-medium mb-1">
+                Group Name
+              </label>
               <input
                 type="text"
                 id="groupName"
@@ -40,7 +44,9 @@ export default function OrganizePage() {
               />
             </div>
             <div>
-              <label htmlFor="groupSize" className="block text-sm font-medium mb-1">Estimated Group Size</label>
+              <label htmlFor="groupSize" className="block text-sm font-medium mb-1">
+                Estimated Group Size
+              </label>
               <input
                 type="number"
                 id="groupSize"
@@ -49,7 +55,9 @@ export default function OrganizePage() {
               />
             </div>
             <div>
-              <label htmlFor="destination" className="block text-sm font-medium mb-1">Preferred Destination</label>
+              <label htmlFor="destination" className="block text-sm font-medium mb-1">
+                Preferred Destination
+              </label>
               <input
                 type="text"
                 id="destination"
