@@ -73,17 +73,17 @@ const promptOpenAi = async (prompt: string) => {
 // API Route handler
 export async function POST(request: NextRequest) {
   try {
-    // Parse request body
+    // Parse request bodyS
     const body: RequestBody = await request.json();
-    console.log({ body });
+
     // Validate request body
     if (!body.prompt) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
     }
 
     // Process the prompt
-    const summary = await promptOpenAi(body.prompt);
-    console.log({ summary });
+    const summary = await promptDeepseek(body.prompt);
+
     // Return the response
     const response: ApiResponse = { summary };
     return NextResponse.json(response);

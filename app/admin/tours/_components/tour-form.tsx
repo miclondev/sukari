@@ -91,26 +91,27 @@ export function SingleTourForm() {
           whatsIncluded: values.whatsIncluded,
           tourItenerary: values.itinerary,
         });
-        return;
-      }
-      const response = await createTour.mutateAsync({
-        title: values.title,
-        orgId: "admin",
-        description: values.description,
-        status: "INACTIVE",
-        totalCost: parseFloat(values.price),
-        previousCost: parseFloat(values.originalPrice),
-        days: parseInt(values.days),
-        groupSize: parseInt(values.groupSize),
-        nextDeparture: values.nextDeparture,
-        images: selectedImages,
-        highlights: values.highlights,
-        whatsIncluded: values.whatsIncluded,
-        tourItenerary: values.itinerary,
-      });
+        toast.success("Tour updated successfully");
+      } else {
+        const response = await createTour.mutateAsync({
+          title: values.title,
+          orgId: "admin",
+          description: values.description,
+          status: "INACTIVE",
+          totalCost: parseFloat(values.price),
+          previousCost: parseFloat(values.originalPrice),
+          days: parseInt(values.days),
+          groupSize: parseInt(values.groupSize),
+          nextDeparture: values.nextDeparture,
+          images: selectedImages,
+          highlights: values.highlights,
+          whatsIncluded: values.whatsIncluded,
+          tourItenerary: values.itinerary,
+        });
 
-      toast.success("Tour created successfully");
-      router.push(`/admin/tours/${response?.id}`);
+        toast.success("Tour created successfully");
+        router.push(`/admin/tours/${response?.id}`);
+      }
     } catch (error: any) {
       toast.error(error.message);
     }
