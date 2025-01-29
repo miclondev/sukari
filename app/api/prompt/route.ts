@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Process the prompt
-    const summary = await promptDeepseek(body.prompt);
+    const summary = await promptOpenAi(body.prompt);
 
     // Return the response
     const response: ApiResponse = { summary };
