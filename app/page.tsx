@@ -20,42 +20,6 @@ import {
 import Link from "next/link";
 import { TourCard } from "./tours/_components/tour-card";
 
-const featuredTours = [
-  {
-    id: 1,
-    slug: "greece-athens-mykonos-santorini",
-    title: "A Week in Greece: Athens, Mykonos & Santorini",
-    price: 2899,
-    originalPrice: 3299,
-    rating: 4.8,
-    days: "8 days",
-    image:
-      "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?auto=format&fit=crop&q=80&w=1200",
-  },
-  {
-    id: 2,
-    slug: "italy-venice-florence-rome",
-    title: "A Week in Italy: Venice, Florence & Rome",
-    price: 2409,
-    originalPrice: 2899,
-    rating: 4.9,
-    days: "7 days",
-    image:
-      "https://images.unsplash.com/photo-1534445867742-43195f401b6c?auto=format&fit=crop&q=80&w=1200",
-  },
-  {
-    id: 3,
-    slug: "london-paris-rome",
-    title: "London, Paris & Rome",
-    price: 3239,
-    originalPrice: 3599,
-    rating: 4.7,
-    days: "10 days",
-    image:
-      "https://images.unsplash.com/photo-1520986606214-8b456906c813?auto=format&fit=crop&q=80&w=1200",
-  },
-];
-
 const whyTravelersLoveUs = [
   {
     icon: Utensils,
@@ -168,10 +132,7 @@ export default function Home() {
             <p className="text-white/80 mb-4">
               You dream it. We&apos;ll take care of every last detail.
             </p>
-            <Button
-              variant="outline"
-              className="text-white border-white hover:bg-white hover:text-ef-teal"
-            >
+            <Button variant="outline" className="border-white text-ef-teal">
               Find out how
             </Button>
           </Card>
@@ -212,7 +173,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 py-8">
             {" "}
             {isLoading ? (
-              <ToursGridSkeleton />
+              <ToursGridSkeleton length={3} />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {(data || []).map((tour) => (

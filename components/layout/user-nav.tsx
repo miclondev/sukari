@@ -18,7 +18,8 @@ import { usePathname } from "next/navigation";
 export function UserNav() {
   const { userAttributes, userProfile, authSession } = useProfile();
   const pathname = usePathname();
-  const userGroups = authSession?.tokens?.accessToken?.payload["cognito:groups"] as string[];
+  const userGroups =
+    (authSession?.tokens?.accessToken?.payload["cognito:groups"] as string[]) || [];
 
   if (userAttributes?.email) {
     return (

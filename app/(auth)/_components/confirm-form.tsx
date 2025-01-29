@@ -51,7 +51,7 @@ export const ConfirmForm = () => {
         toast.info("Account successful confirmed.", {
           description: "Now signin with your credentials",
         });
-        push("/auth/signin");
+        push("/auth/login");
       }
     } catch (e: any) {
       toast.error(e?.message);

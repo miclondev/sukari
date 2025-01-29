@@ -65,7 +65,7 @@ export const RegisterForm = () => {
 
       if (nextStep?.signUpStep === "CONFIRM_SIGN_UP") {
         toast.info("Check your email for a code to confirm your account");
-        push(`/confirm?email=${encodeURIComponent(email)}`);
+        push(`/auth/confirm?email=${encodeURIComponent(email)}`);
         return;
       }
     } catch (e: any) {
