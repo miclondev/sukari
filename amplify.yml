@@ -11,7 +11,7 @@ frontend:
       commands:
         - env | grep -e OPENAI_API_KEY -e DEEPSEEK_API_KEY >> .env.production
         - npm run build
-        - node --max_old_space_size=4096 node_modules/.bin/next build
+        - node --max_old_space_size=8192 node_modules/.bin/next build
   artifacts:
     baseDirectory: .next
     files:

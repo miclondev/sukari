@@ -1,4 +1,5 @@
 "use client";
+import { TourCardSkeleton } from "@/components/skeletons/tour-card-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,7 +14,7 @@ export function SingleTour() {
   const { data, isLoading } = useTour(id);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <TourCardSkeleton />;
   }
 
   return (
