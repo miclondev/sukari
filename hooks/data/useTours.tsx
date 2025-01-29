@@ -58,6 +58,7 @@ export const useTourByStatus = (status: string, limit = 50) => {
         {
           sortDirection: "DESC",
           limit,
+          authMode: "identityPool",
         }
       );
       if (errors) {
@@ -73,7 +74,12 @@ export const useTour = (id: string) => {
   return useQuery({
     queryKey: tourKeys.detail(id),
     queryFn: async () => {
-      const { data, errors } = await Tour.get({ id });
+      const { data, errors } = await Tour.get(
+        { id },
+        {
+          authMode: "identityPool",
+        }
+      );
       if (errors) {
         throw new Error(errors.map((e) => e.message).join("\n"));
       }
