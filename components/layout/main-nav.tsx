@@ -17,12 +17,12 @@ interface MainNavProps {
 
 export function MainNav({ className }: MainNavProps) {
   return (
-    <nav className={cn("space-y-1 md:space-y-0 md:space-x-6", className)}>
+    <nav className={cn("space-y-1 md:space-y-0 md:space-x-2", className)}>
       {navItems.map((item) => (
         <Link
           key={item.href}
           href={item.href}
-          className="block md:inline-block px-4 py-2 text-foreground/80 hover:text-foreground hover:bg-gray-50 md:hover:bg-transparent transition-colors rounded-md"
+          className="block md:inline-block px-2 py-2 font-medium text-foreground hover:text-foreground hover:bg-gray-50 md:hover:bg-transparent transition-colors rounded-md"
         >
           {item.label}
         </Link>
