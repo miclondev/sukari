@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { useTour } from "@/hooks/data/useTours";
 import { Calendar, Clock, Globe, MapPin, Users } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 
 export function SingleTour() {
@@ -137,8 +138,8 @@ export function SingleTour() {
                     <span>Multiple destinations</span>
                   </div>
                 </div>
-                <Button className="w-full bg-ef-orange hover:bg-ef-orange/90 text-white">
-                  Book Now
+                <Button className="w-full bg-ef-orange hover:bg-ef-orange/90 text-white" asChild>
+                  <Link href="/checkout">Book Now</Link>
                 </Button>
                 <p className="text-xs text-center text-muted-foreground">
                   Reserve now with $99 deposit
