@@ -66,7 +66,8 @@ const trustAndSafety = [
   },
 ];
 export default function Home() {
-  const { data, isLoading } = useTourByStatus("ACTIVE", 3);
+  const { data, isLoading, error } = useTourByStatus("ACTIVE", 3);
+  console.log(data, error);
   return (
     <div className="min-h-screen">
       {/* Promo Banner */}

@@ -1,3 +1,4 @@
+import { useProfile } from "@/contexts/profile-context";
 import { CreateTourInput, UpdateTourInput } from "@/types/API";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useClient from "../use-client";
@@ -50,6 +51,7 @@ export const useOrgTours = (orgId: string) => {
 
 export const useTourByStatus = (status: string, limit = 50) => {
   const { Tour } = useClient();
+  const { userId } = useProfile();
   return useQuery({
     queryKey: tourKeys.list({ status }),
     queryFn: async () => {
@@ -58,9 +60,10 @@ export const useTourByStatus = (status: string, limit = 50) => {
         {
           sortDirection: "DESC",
           limit,
-          authMode: "identityPool",
+          authMode: userId ? "userPool" : "identityPool",
         }
       );
+
       if (errors) {
         throw new Error(errors.map((e) => e.message).join("\n"));
       }
@@ -71,13 +74,14 @@ export const useTourByStatus = (status: string, limit = 50) => {
 
 export const useTour = (id: string) => {
   const { Tour } = useClient();
+  const { userId } = useProfile();
   return useQuery({
     queryKey: tourKeys.detail(id),
     queryFn: async () => {
       const { data, errors } = await Tour.get(
         { id },
         {
-          authMode: "identityPool",
+          authMode: userId ? "userPool" : "identityPool",
         }
       );
       if (errors) {
